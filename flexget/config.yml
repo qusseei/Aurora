@@ -47,13 +47,12 @@ templates:
       - "'NGB' in title or 'DoA' in title": reject
 
   TE_CMCT:
-    if: #启用 if 条件过滤
-      - "'1080p' in title and 'CMCT' in title": accept #标题含有 ABC 就下载
-      - "'720P' in title": reject #标题含有 DEF 就不下载
+    if:
+      - "'1080p' in title and 'CMCT' in title": accept
+      - "'720P' in title": reject
 
 schedules:
-  # Run every 3 minutes 
-  - tasks: TASK_CMCT
+  - tasks: [TASK_CMCT,TASK_TTG]
     schedule:
       minute: "*/3"
 

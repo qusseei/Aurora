@@ -8,7 +8,7 @@ tasks:
       - TE_TTG
 
   TASK_CMCT:
-    rss: https://hdcmct.org/torrentrss.php?rows=10&tea1=1&linktype=dl&passkey=*************************
+    rss: https://hdcmct.org/myfeed.rss
     template:
       - TE_FREESPACE
       - TE_SIZE

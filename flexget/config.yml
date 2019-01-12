@@ -8,7 +8,7 @@ tasks:
       - TE_TTG
 
   TASK_CMCT:
-    rss: https://hdcmct.org/torrentrss.php?rows=10&tea1=1&linktype=dl&passkey=a7bd28ab0cf625e5684555888a0fd44a
+    rss: https://hdcmct.org/torrentrss.php?rows=10&tea1=1&linktype=dl&passkey=*************************
     template:
       - TE_FREESPACE
       - TE_SIZE
@@ -48,8 +48,8 @@ templates:
 
   TE_CMCT:
     if: #启用 if 条件过滤
-      - "'1080p' in title and 'x264' in title": accept #标题含有 ABC 就下载
-      # - "'1080p' in title": reject #标题含有 DEF 就不下载
+      - "'1080p' in title and 'CMCT' in title": accept #标题含有 ABC 就下载
+      - "'720P' in title": reject #标题含有 DEF 就不下载
 
 schedules:
   # Run every 3 minutes 

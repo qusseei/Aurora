@@ -9,7 +9,7 @@ core.max_cache_size = 2000
 # src = r"D:\Movie\00002.m2ts"
 # rip = r"D:\Movie\Lover.Letter.1995.720p.BluRay.AC3.x264-CQ.mkv"
 
-core.avs.LoadPlugin(r"C:\Protable\dgdecnv2053\x64 Binaries\DGDecodeNV.dll")
+core.avs.LoadPlugin(r"C:\Protable\VapourSynth64Portable_2018_12_19\VapourSynth64Portable\VapourSynth64\vapoursynth64\plugins\dgdecnv2053\x64 Binaries\DGDecodeNV.dll")
 src = core.avs.DGSource(r"D:\00003_T1_Video - .dgi")
 
 # src8 = core.lsmas.LWLibavSource(src,threads=1)

@@ -4,14 +4,14 @@ import havsfunc as haf
 import mvsfunc as mvf
 import RW7T6
 import GradFun3 as GF3
-core = vs.get_core(accept_lowercase=True)
-core.max_cache_size = 1500
+core = vs.get_core(threads=8)
+core.max_cache_size = 2000
 
-core.avs.LoadPlugin(r"C:/VapourSynth/plugins64/DGDecodeNV.dll")
+core.avs.LoadPlugin(r"C:\Protable\VapourSynth64Portable_2018_12_19\VapourSynth64Portable\VapourSynth64\vapoursynth64\plugins\dgdecnv2053\x64 Binaries/DGDecodeNV.dll")
 
 src = core.ffms2.Source(source=r'00.mkv')#mkv
 src = core.lsmas.LibavSMASHSource(source=r'00.mp4')#MP4
-src = core.lsmas.LWLibavSource(source=r'00.mp4')#m2ts，mkv，ts
+src = core.lsmas.LWLibavSource(source=r'00.m2ts')#m2ts，mkv，ts
 
 src = core.avs.DGSource(r"G:\Movies.HD\Jade.dgi",fieldop=0,deinterlace=1)#dgi具体路径
 src = mvf.ToYUV(src,matrix="601")

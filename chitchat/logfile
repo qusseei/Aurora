@@ -1,4 +1,0 @@
-2019-01-18 22:45:34.474 HKT [9256] FATAL:  lock file "postmaster.pid" already exists
-2019-01-18 22:45:34.474 HKT [9256] HINT:  Is another postmaster (PID 7136) running in data directory "C:/PostgreSQL/10/data"?
-2019-01-18 22:45:46.391 HKT [11140] FATAL:  lock file "postmaster.pid" already exists
-2019-01-18 22:45:46.391 HKT [11140] HINT:  Is another postmaster (PID 7136) running in data directory "C:/PostgreSQL/10/data"?

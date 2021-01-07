@@ -1,3 +1,6 @@
+// ConsoleApplication1.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+//
+
 // 终极版.cpp : 定义控制台应用程序的入口点。
 #include<iostream>
 #include<fstream>
@@ -27,7 +30,7 @@ foodsocre FoodMssage[20];
 typedef struct node
 {
     foodsocre data;
-    struct node *next;
+    struct node* next;
 } NodeTp;
 #define CreateNode(p) p = (NodeTp *)malloc(sizeof(NodeTp));//建立节点的宏
 #define DeleteNode(p) free((void *)p);//删除节点的宏
@@ -35,8 +38,8 @@ typedef struct node
 class User                      /*用户类*/
 {
 private:
-    char usename[20];
-    char password[20];
+    char usename[20] = "";
+    char password[20] = "";
 public:
     void set();
     void load();
@@ -50,7 +53,10 @@ public:
     virtual ~User() {};
 };
 
+
 User u;
+
+
 
 
 struct S_inf                    /*学生资料结构体*/
@@ -62,15 +68,15 @@ struct S_inf                    /*学生资料结构体*/
 
 struct foods                    /*菜品信息结构体*/
 {
-    int number;
+    int number=0;
     string name;
 } foods[N];                     /*结构体对象*/
 
 
-class manager_use: public User  /*由用户类派生的管理员操作类*/
+class manager_use : public User  /*由用户类派生的管理员操作类*/
 {
 private:
-    char ID[20];
+    char ID[20]=" ";
 public:
     void Adm_Windows();
     void addfood();
@@ -87,7 +93,7 @@ public:
 manager_use manager1;           /*管理员操作对象*/
 
 
-class student_use: public User  /*由用户类派生的学生操作类*/
+class student_use : public User  /*由用户类派生的学生操作类*/
 {
 public:
     void save_money(int n);
@@ -100,27 +106,40 @@ student_use student1;           /*学生类操作对象*/
 /*提前创建信息保存文本*/
 void InitialFile()
 {
-    FILE *fp;
-    if((fp = fopen("admin.txt", "a")) == NULL)
+    FILE* fp;
+    errno_t err;
+    if ((err = fopen_s(&fp,"admin.txt", "a")) == NULL)
     {
         printf("can't open the file use.txt\n");
         exit(0);
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
+    
+    if ((err = fopen_s(&fp,"menu.txt", "a")) == NULL)
+    {
+        printf("can't open the file use.txt\n");
+        exit(0);
+    }
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
 
-    if((fp = fopen("menu.txt", "a")) == NULL)
+    if ((err = fopen_s(&fp,"stu_info.txt", "a")) == NULL)
     {
         printf("can't open the file use.txt\n");
         exit(0);
     }
-    fclose(fp);
-
-    if((fp = fopen("stu_info.txt", "a")) == NULL)
+    if (fp != NULL)
     {
-        printf("can't open the file use.txt\n");
-        exit(0);
+        fclose(fp);
+        fp = NULL;
     }
-    fclose(fp);
 
 }
 
@@ -130,6 +149,7 @@ void mainmenu()
     system("cls");
     int nselete;
     char sTemp[20];
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【主菜单】——————╮" << endl;
     cout << "\t\t\t*—————************——————* " << endl;
@@ -158,7 +178,7 @@ void mainmenu()
         nselete = 88;
     }
 
-    switch(nselete)
+    switch (nselete)
     {
     case 1:
         u.Adm_Account();
@@ -171,24 +191,24 @@ void mainmenu()
         break;
     default:
         cout << "\t\t\t输入错误!请选择0、1、2三个功能键...";
-        getch();
+        errget = _getch();
         mainmenu();
         break;
     }
 }
 
 /*读取用户名字*/
-void readname(char *usename)
+void readname(char* usename)
 {
     cin >> usename;
 }
 
 /*读取用户密码*/
-void readpassword(char *password)
+void readpassword(char* password)
 {
     int k = 0;
     char ch;
-    while((ch = getch()) != 13)
+    while ((ch = _getch()) != 13)
     {
         if ((ch == '\b'))
         {
@@ -209,9 +229,10 @@ void readpassword(char *password)
 void User::set()
 {
     int j;
+    char errget;
     cout << "\t\t\t请输入注册码:";
     cin >> j;
-    if(j == 123)
+    if (j == 123)
     {
         cout << "\t\t\t设置用户名：";
         readname(usename);
@@ -221,12 +242,12 @@ void User::set()
         ofile << usename << endl << password << endl;
         ofile.close();
         cout << "\n\t\t\t设置成功...";
-        getch();
+        errget = _getch();
     }
     else
     {
         cout << "\t\t\t注册码错误，无法注册新账号！";
-        getch();
+        errget = _getch();
     }
 }
 
@@ -235,6 +256,7 @@ void User::load()
 {
     char user[20];
     char word[20];
+    char errget;
     User uu;
     cout << "\t\t\t请输入用户名:";
     readname(uu.usename);
@@ -242,24 +264,24 @@ void User::load()
     readpassword(uu.password);
     ifstream ifile;
     ifile.open("admin.txt", ios_base::in);
-    while(ifile.good())
+    while (ifile.good())
     {
         ifile.getline(user, 100);
         ifile.getline(word, 100);
-        if(strcmp(uu.usename, user) == 0 && strcmp(uu.password, word) == 0)
+        if (strcmp(uu.usename, user) == 0 && strcmp(uu.password, word) == 0)
         {
             cout << "\t\t\t登陆成功(任意键继续)...";
             manager1.Adm_Windows();
             ifile.close();
-            getch();
+            errget = _getch();
             return;
         }
     }
     cout << "\t\t\t您的账号或密码错误(任意键继续)...";
-    getch();
+    errget = _getch();
     u.Adm_Account();
     ifile.close();
-    getch();
+    errget = _getch();
 }
 
 /*管理员账户主界面函数*/
@@ -267,6 +289,7 @@ void User::Adm_Account()
 {
     system("cls");
     int nselete;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭————【管理员帐户】—————╮" << endl;
     cout << "\t\t\t*—————************——————*" << endl;
@@ -282,10 +305,9 @@ void User::Adm_Account()
         cin.clear();
         cout << "\n\t\t\t输入您要执行操作的序号:";
         cin >> nselete;
-    }
-    while(cin.fail());
+    } while (cin.fail());
     cout << endl;
-    switch(nselete)
+    switch (nselete)
     {
     case 1:
         u.set();
@@ -302,7 +324,7 @@ void User::Adm_Account()
         break;
     default:
         cout << "\t\t\t请选择0、1、2、3四个功能键...";
-        getch();
+        errget = _getch();
         u.Adm_Account();
     }
 
@@ -316,11 +338,11 @@ void manager_use::setstu()
     int i = 0;
     cout << endl << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【录入学生信息】—————╮" << endl << endl << endl;
-    for(;;)
+    for (;;)
     {
         cout << "\t\t\t请输学号:";
         cin >> members[i].number;
-        if(!strcmp(members[i].number, ch))
+        if (!strcmp(members[i].number, ch))
         {
             Adm_Windows();
             break;
@@ -341,6 +363,7 @@ void manager_use::setstu()
 void manager_use::Adm_Windows()
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【管理员窗口】————╮" << endl;
     cout << "\t\t\t*——————************—————*" << endl;
@@ -359,7 +382,7 @@ void manager_use::Adm_Windows()
     cout << "\t\t\t请输入您要选择的数字：";
     int a;
     cin >> a;
-    switch(a)
+    switch (a)
     {
     case 1:
         manager1.searchfood(0);
@@ -382,7 +405,7 @@ void manager_use::Adm_Windows()
         exit(1);
     default:
         cout << "\t\t\t请选择0、1、2、3、4、5、6、7、8九个功能键...";
-        getch();
+        errget = _getch();
         manager1.Adm_Windows();
         break;
     }
@@ -395,6 +418,7 @@ void User::searchfood_number(int h)
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -407,10 +431,10 @@ void User::searchfood_number(int h)
     cout << "\t\t\t请输入你所查询的菜品编号：";
     cin >> a;
     string information[20][3];
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
-        if(a == information[i][0])
+        if (a == information[i][0])
         {
             cout << endl << endl << "\t编号" << "\t名称" << "\t价格" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
@@ -418,7 +442,7 @@ void User::searchfood_number(int h)
             cout << endl << endl << "\t\t\t查询完成！" << "\n\t\t\t1 返回；   2 继续查询  ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.searchfood(0);
@@ -426,18 +450,18 @@ void User::searchfood_number(int h)
                 manager1.searchfood_number(0);
             default:
                 cout << "\t\t\t请选择1、2两个功能键...";
-                getch();
+                errget = _getch();
                 manager1.searchfood_number(0);
                 break;
             }
         }
     }
-    if(n == 0)
+    if (n == 0)
     {
         cout << "\t\t\t您所查询的菜品不存在！" << "\n\t\t\t1 返回；   2 继续查询        " << endl;
         int a;
         cin >> a;
-        switch(a)
+        switch (a)
         {
         case 1:
             manager1.searchfood(0);
@@ -445,7 +469,7 @@ void User::searchfood_number(int h)
             manager1.searchfood_number(0);
         default:
             cout << "\t\t\t请选择1、2两个功能键...";
-            getch();
+            errget = _getch();
             manager1.searchfood_number(0);
             break;
         }
@@ -459,6 +483,7 @@ void User::searchfood_name(int h)
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -471,10 +496,10 @@ void User::searchfood_name(int h)
     cout << "\t\t\t请输入你所查询的菜品名称：";
     cin >> a;
     string information[20][3];
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
-        if(a == information[i][1])
+        if (a == information[i][1])
         {
             cout << endl << endl << "\t编号" << "\t名称" << "\t价格" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
@@ -482,7 +507,7 @@ void User::searchfood_name(int h)
             cout << endl << endl << "\t\t\t查询完成！" << endl << endl << "\n\t\t\t1 返回；   2 继续查询  " << endl;
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.searchfood(0);
@@ -490,18 +515,18 @@ void User::searchfood_name(int h)
                 manager1.searchfood_name(0);
             default:
                 cout << "\t\t\t请选择1、2两个功能键...";
-                getch();
+                errget = _getch();
                 manager1.searchfood_name(0);
                 break;
             }
         }
     }
-    if(n == 0)
+    if (n == 0)
     {
         cout << "\n\t\t\t您所查询的菜品不存在！" << endl << "\n\t\t\t1 返回；   2 继续查询        " << endl << "\t\t\t";
         int a;
         cin >> a;
-        switch(a)
+        switch (a)
         {
         case 1:
             manager1.searchfood(0);
@@ -509,7 +534,7 @@ void User::searchfood_name(int h)
             manager1.searchfood_name(0);
         default:
             cout << "\t\t\t请选择1、2两个功能键...";
-            getch();
+            errget = _getch();
             manager1.searchfood_name(0);
             break;
         }
@@ -520,6 +545,7 @@ void User::searchfood_name(int h)
 void User::searchfood(int h)
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*——————************——————*" << endl;
@@ -535,20 +561,20 @@ void User::searchfood(int h)
     cout << "\t\t\t请输入您要选择的数字：";
     int a;
     cin >> a;
-    switch(a)
+    switch (a)
     {
     case 1:
     {
         system("cls");
         ifstream f("menu.txt");
-        while(!f.eof())
+        while (!f.eof())
         {
             char a;
             a = f.get();
             cout << a;
         }
         cout << "\t\t\t查询完成，按任意键返回";
-        getch();
+        errget = _getch();
         manager1.searchfood(0);
     }
     case 2:
@@ -564,7 +590,7 @@ void User::searchfood(int h)
         exit(1);
     default:
         cout << "\t\t\t请选择0、1、2、3、4、5六个功能键...";
-        getch();
+        errget = _getch();
         manager1.searchfood(0);
         break;
     }
@@ -575,6 +601,7 @@ void manager_use::addfood()
 {
     system("cls");
     string a, b, c;
+    char errget;
     ofstream f("menu.txt", ios::app);
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品增加】——————╮" << endl;
@@ -595,7 +622,7 @@ void manager_use::addfood()
     cin >> c;
     f << c << endl;
     cout << "\n\t\t\t添加完成！任意键返回...";
-    getch();
+    errget = _getch();
     manager1.Adm_Windows();
 }
 
@@ -606,6 +633,7 @@ void manager_use::deletefood_number()
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品删除】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -627,40 +655,40 @@ void manager_use::deletefood_number()
     cout << "\t\t\t请选择：";
     int d;
     cin >> d;
-    switch(d)
+    switch (d)
     {
     case 1:
     {
         int m = 0;
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(a == information[i][0])
+            if (a == information[i][0])
             {
                 n = 1;
                 information[i][0] = "0";
             }
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(information[i][0] != "0")
+            if (information[i][0] != "0")
             {
                 g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
             }
         }
         g.close();
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\t\t\t您所要删除的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续删除        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.deletefood();
@@ -668,15 +696,15 @@ void manager_use::deletefood_number()
                 manager1.deletefood_number();
             default:
                 cout << "\t\t\t请选择1、2两个功能键...";
-                getch();
+                errget = _getch();
                 manager1.deletefood_number();
                 break;
             }
         }
-        if(n == 1)
+        if (n == 1)
         {
             cout << "\t\t\t已删除！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.deletefood();
         }
     }
@@ -692,6 +720,7 @@ void manager_use::deletefood_name()
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品删除】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -713,37 +742,37 @@ void manager_use::deletefood_name()
     cout << "\n\t\t\t请选择：";
     int d;
     cin >> d;
-    switch(d)
+    switch (d)
     {
     case 1:
     {
         int m = 0;
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(a == information[i][1])
+            if (a == information[i][1])
             {
                 n = 1;
                 information[i][1] = "0";
             }
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(information[i][1] != "0") g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
+            if (information[i][1] != "0") g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
         f.close();
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\t\t\t您所要删除的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续删除        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.deletefood();
@@ -751,10 +780,10 @@ void manager_use::deletefood_name()
                 manager1.deletefood_name();
             }
         }
-        if(n == 1)
+        if (n == 1)
         {
             cout << "\n\t\t\t已删除！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.deletefood();
         }
     }
@@ -762,7 +791,7 @@ void manager_use::deletefood_name()
         manager1.deletefood();
     default:
         cout << "\t\t\t请选择1、2三个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -771,6 +800,7 @@ void manager_use::deletefood_name()
 void manager_use::deletefood()
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl << endl;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品删除】——————╮" << endl;
@@ -788,7 +818,7 @@ void manager_use::deletefood()
     cout << endl << endl;
     int a;
     cin >> a;
-    switch(a)
+    switch (a)
     {
     case 1:
         manager1.deletefood_number();
@@ -803,7 +833,7 @@ void manager_use::deletefood()
         exit(1);
     default:
         cout << "\t\t\t请选择0、1、2、3、4五个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -814,6 +844,7 @@ void manager_use::changefood_number()
     system("cls");
     string a, b;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品编号修改】—————╮" << endl;
     cout << "\t\t\t*——————************———————*" << endl;
@@ -837,7 +868,7 @@ void manager_use::changefood_number()
     cout << "\n\t\t\t请选择：";
     int d;
     cin >> d;
-    switch(d)
+    switch (d)
     {
     case 1:
     {
@@ -845,32 +876,32 @@ void manager_use::changefood_number()
         ifstream f("menu.txt", ios::binary);
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(a == information[i][0])
+            if (a == information[i][0])
             {
                 information[i][0] = b;
                 n = 1;
             }
         }
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\t\t\t您所要修改的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续修改        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.changefood();
@@ -878,14 +909,14 @@ void manager_use::changefood_number()
                 manager1.changefood_number();
             default:
                 cout << "\t\t\t请选择1、2三个功能键...";
-                getch();
+                errget = _getch();
                 break;
             }
         }
-        else if(n == 1)
+        else if (n == 1)
         {
             cout << "\t\t\t已修改！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.changefood();
         }
     }
@@ -893,7 +924,7 @@ void manager_use::changefood_number()
         manager1.changefood();
     default:
         cout << "\t\t\t请选择1、2两个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -904,6 +935,7 @@ void manager_use::changefood_name()
     system("cls");
     string a, b;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品名称修改】—————╮" << endl;
     cout << "\t\t\t*——————************———————*" << endl;
@@ -927,7 +959,7 @@ void manager_use::changefood_name()
     cout << "\n\t\t\t请选择：";
     int d;
     cin >> d;
-    switch(d)
+    switch (d)
     {
     case 1:
     {
@@ -935,32 +967,32 @@ void manager_use::changefood_name()
         ifstream f("menu.txt", ios::binary);
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(a == information[i][1])
+            if (a == information[i][1])
             {
                 information[i][1] = b;
                 n = 1;
             }
         }
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\n\t\t\t您所要修改的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续修改        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.changefood();
@@ -968,10 +1000,10 @@ void manager_use::changefood_name()
                 manager1.changefood_name();
             }
         }
-        else if(n == 1)
+        else if (n == 1)
         {
             cout << "\n\t\t\t已修改！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.changefood();
         }
     }
@@ -979,7 +1011,7 @@ void manager_use::changefood_name()
         manager1.changefood();
     default:
         cout << "\t\t\t请选择1、2两个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -990,6 +1022,7 @@ void manager_use::changefood_price_number()
     system("cls");
     string a, b;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品价格修改】—————╮" << endl;
     cout << "\t\t\t*——————************———————*" << endl;
@@ -1013,7 +1046,7 @@ void manager_use::changefood_price_number()
     cout << "\n\t\t\t请选择：";
     int e;
     cin >> e;
-    switch(e)
+    switch (e)
     {
     case 1:
     {
@@ -1021,32 +1054,32 @@ void manager_use::changefood_price_number()
         ifstream f("menu.txt", ios::binary);
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(a == information[i][0])
+            if (a == information[i][0])
             {
                 information[i][2] = b;
                 n = 1;
             }
         }
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\n\t\t\t您所要修改的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续修改        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.changefood();
@@ -1054,10 +1087,10 @@ void manager_use::changefood_price_number()
                 manager1.changefood_price_number();
             }
         }
-        else if(n == 1)
+        else if (n == 1)
         {
             cout << "\n\t\t\t已修改！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.changefood();
         }
     }
@@ -1065,7 +1098,7 @@ void manager_use::changefood_price_number()
         manager1.changefood();
     default:
         cout << "\t\t\t请选择1、2两个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -1076,6 +1109,7 @@ void manager_use::changefood_price_name()
     system("cls");
     string a, b;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品价格修改】—————╮" << endl;
     cout << "\t\t\t*——————************———————*" << endl;
@@ -1099,7 +1133,7 @@ void manager_use::changefood_price_name()
     cout << "\n\t\t\t请选择：";
     int e;
     cin >> e;
-    switch(e)
+    switch (e)
     {
     case 1:
     {
@@ -1107,32 +1141,32 @@ void manager_use::changefood_price_name()
         ifstream f("menu.txt", ios::binary);
         string information[20][3];
         int i;
-        for(i = 0; i < 20; i++)
+        for (i = 0; i < 20; i++)
         {
             f >> information[i][0] >> information[i][1] >> information[i][2];
             m++;
-            if(information[i][0] == "") break;
+            if (information[i][0] == "") break;
         }
         f.close();
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
-            if(a == information[i][1])
+            if (a == information[i][1])
             {
                 information[i][2] = b;
                 n = 1;
             }
         }
         ofstream g("menu.txt", ios::binary);
-        for(i = 0; i < m; i++)
+        for (i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
-        if(n == 0)
+        if (n == 0)
         {
             cout << "\n\t\t\t您所要修改的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续修改        ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 manager1.changefood();
@@ -1140,14 +1174,14 @@ void manager_use::changefood_price_name()
                 manager1.changefood_price_name();
             default:
                 cout << "\t\t\t请选择1、2三个功能键...";
-                getch();
+                errget = _getch();
                 break;
             }
         }
-        else if(n == 1)
+        else if (n == 1)
         {
             cout << "\n\t\t\t已修改！任意键返回...";
-            getch();
+            errget = _getch();
             manager1.changefood();
         }
     }
@@ -1155,7 +1189,7 @@ void manager_use::changefood_price_name()
         manager1.changefood();
     default:
         cout << "\t\t\t请选择1、2两个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
@@ -1164,6 +1198,7 @@ void manager_use::changefood_price_name()
 void manager_use::changefood()
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜品修改】——————╮" << endl;
     cout << "\t\t\t*——————************——————*" << endl;
@@ -1178,7 +1213,7 @@ void manager_use::changefood()
     cout << endl << endl << "\t\t\t请选择：";
     int a;
     cin >> a;
-    switch(a)
+    switch (a)
     {
     case 1:
         manager1.changefood_number();
@@ -1206,7 +1241,7 @@ void manager_use::changefood()
         cout << "\t\t\t请选择：";
         int d;
         cin >> d;
-        switch(d)
+        switch (d)
         {
         case 1:
             manager1.changefood_price_number();
@@ -1230,21 +1265,22 @@ void manager_use::changefood()
         exit(1);
     default:
         cout << "\t\t\t请选择1、2两个功能键...";
-        getch();
+        errget = _getch();
         break;
     }
 }
 
 /*读取学生ID函数*/
-void readID(char *ID)
+void readID(char* ID)
 {
     cin >> ID;
 }
 
 /*学生账户主函数*/
-void student_use::stu_account(int n )
+void student_use::stu_account(int n)
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【 学生账户 】————╮" << endl;
     cout << "\t\t\t*——————************—————*" << endl;
@@ -1262,7 +1298,7 @@ void student_use::stu_account(int n )
     cout << "\t\t\t请输入要选择的数字：";
     int k;
     cin >> k;
-    switch(k)
+    switch (k)
     {
     case 1:
         student1.searchfood('h');
@@ -1287,7 +1323,7 @@ void student_use::stu_account(int n )
         exit(1);
     default:
         cout << "\t\t\t请选择0、1、2、3、4、5、6、7八个功能键...";
-        getch();
+        errget = _getch();
         manager1.Adm_Windows();
         break;
     }
@@ -1302,22 +1338,22 @@ void student_use::buy(int n)
     cin >> num;
     string information[20][3];
     ifstream f("menu.txt", ios::binary);
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
-        if(num == information[i][0])
+        if (num == information[i][0])
         {
             cout << endl << endl << "\t编号" << "\t名称" << "\t价格" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             char buf[10];
-            strcpy(buf, information[i][2].c_str());
-            sscanf(buf, "%d", &i);
-            if(members[n].money - i > 0)
+            strcpy_s(buf, information[i][2].c_str());
+            sscanf_s(buf, "%d", &i);
+            if (members[n].money - i > 0)
             {
                 members[n].money -= i;
                 cout << endl << endl << "\t\t\t购买完成！余额为：" << members[n].money << endl << "\t\t\t1 返回；   2 继续购买  ";
                 ofstream g("stu_info.txt", ios::binary);
-                for(i = 0; i < sum; i++)
+                for (i = 0; i < sum; i++)
                 {
                     g << members[i].number << "\t" << members[i].name << "\t" << members[i].money << endl;
                 }
@@ -1328,7 +1364,7 @@ void student_use::buy(int n)
             }
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
 
             case 1:
@@ -1338,12 +1374,12 @@ void student_use::buy(int n)
             }
         }
     }
-    if(n == 0)
+    if (n == 0)
     {
         cout << "\t\t\t您所购买的菜品不存在！" << endl << "\t\t\t1 返回；   2 继续购买        " << endl;
         int a;
         cin >> a;
-        switch(a)
+        switch (a)
         {
         case 1:
             stu_account(n);
@@ -1362,11 +1398,11 @@ void student_use::save_money(int n)
     cin >> money;
     members[n].money += money;
     ofstream g("stu_info.txt", ios::binary);
-    for(i = 0; i < sum; i++)
+    for (i = 0; i < sum; i++)
         g << members[i].number << "\t" << members[i].name << "\t" << members[i].money << endl;
     cout << endl << "\t\t\t充值成功！！余额为：" << members[n].money << endl << endl << "\t\t\t1.继续充值	        2.返回" << endl;
     cin >> i;
-    switch(i)
+    switch (i)
     {
 
     case 1:
@@ -1380,6 +1416,7 @@ void student_use::save_money(int n)
 void student_use::readnumber()
 {
     char a[40];
+    char errget;
     system("cls");
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【学生用户登录】——————╮" << endl;
@@ -1393,23 +1430,23 @@ void student_use::readnumber()
     cin >> a;
     cout << endl;
     int t = 0, flag = 0;
-    for(t = 0; t < sum; t++)
-        if(!strcmp(members[t].number, a))
+    for (t = 0; t < sum; t++)
+        if (!strcmp(members[t].number, a))
         {
             flag = 1;
             break;
         }
-    if(flag)
+    if (flag)
     {
         cout << "\t\t\t登陆成功(任意键继续)...";
         student1.stu_account(t);
-        getch();
+        errget = _getch();
         return;
     }
     else
     {
         cout << "\t\t\t该学生没有注册...";
-        getch();
+        errget = _getch();
         mainmenu();
     }
 }
@@ -1421,6 +1458,7 @@ void User::searchfood_number(char h)
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -1433,10 +1471,10 @@ void User::searchfood_number(char h)
     cout << "\t\t\t请输入你所查询的菜品编号：";
     cin >> a;
     string information[20][3];
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
-        if(a == information[i][0])
+        if (a == information[i][0])
         {
             cout << endl << endl << "\t编号" << "\t名称" << "\t价格" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
@@ -1444,7 +1482,7 @@ void User::searchfood_number(char h)
             cout << endl << endl << "\t\t\t查询完成！" << "\n\t\t\t1 返回；   2 继续查询  ";
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 student1.searchfood(h);
@@ -1452,18 +1490,18 @@ void User::searchfood_number(char h)
                 student1.searchfood_number(h);
             default:
                 cout << "\t\t\t请选择1、2三个功能键...";
-                getch();
+                errget = _getch();
                 student1.searchfood_number(h);
                 break;
             }
         }
     }
-    if(n == 0)
+    if (n == 0)
     {
         cout << "\t\t\t您所查询的菜品不存在！" << "\n\t\t\t1 返回；   2 继续查询        " << endl;
         int a;
         cin >> a;
-        switch(a)
+        switch (a)
         {
         case 1:
             student1.searchfood(h);
@@ -1471,7 +1509,7 @@ void User::searchfood_number(char h)
             student1.searchfood_number(h);
         default:
             cout << "\t\t\t请选择1、2两个功能键...";
-            getch();
+            errget = _getch();
             student1.searchfood_number(h);
             break;
         }
@@ -1485,6 +1523,7 @@ void User::searchfood_name(char h)
     ifstream f("menu.txt", ios::binary);
     string a;
     int n = 0;
+    char errget;
     cout << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*—————************———————*" << endl;
@@ -1497,10 +1536,10 @@ void User::searchfood_name(char h)
     cout << "\t\t\t请输入你所查询的菜品名称：";
     cin >> a;
     string information[20][3];
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
-        if(a == information[i][1])
+        if (a == information[i][1])
         {
             cout << endl << endl << "\t编号" << "\t名称" << "\t价格" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
@@ -1508,7 +1547,7 @@ void User::searchfood_name(char h)
             cout << endl << endl << "\t\t\t查询完成！" << endl << endl << "\n\t\t\t1 返回；   2 继续查询  " << endl;
             int a;
             cin >> a;
-            switch(a)
+            switch (a)
             {
             case 1:
                 student1.searchfood(h);
@@ -1516,18 +1555,18 @@ void User::searchfood_name(char h)
                 student1.searchfood_name(h);
             default:
                 cout << "\t\t\t请选择1、2两个功能键...";
-                getch();
+                errget = _getch();
                 student1.searchfood_name(h);
                 break;
             }
         }
     }
-    if(n == 0)
+    if (n == 0)
     {
         cout << "\n\t\t\t您所查询的菜品不存在！" << endl << "\n\t\t\t1 返回；   2 继续查询        " << endl << "\t\t\t";
         int a;
         cin >> a;
-        switch(a)
+        switch (a)
         {
         case 1:
             student1.searchfood(h);
@@ -1535,7 +1574,7 @@ void User::searchfood_name(char h)
             student1.searchfood_name(h);
         default:
             cout << "\t\t\t请选择1、2两个功能键...";
-            getch();
+            errget = _getch();
             student1.searchfood_name(h);
             break;
         }
@@ -1546,6 +1585,7 @@ void User::searchfood_name(char h)
 void User::searchfood(char h)
 {
     system("cls");
+    char errget;
     cout << endl << endl << endl << endl << endl;
     cout << "\t\t\t╭—————【菜单查询】——————╮" << endl;
     cout << "\t\t\t*——————************——————*" << endl;
@@ -1561,20 +1601,20 @@ void User::searchfood(char h)
     cout << "\t\t\t请输入您要选择的数字：";
     int p;
     cin >> p;
-    switch(p)
+    switch (p)
     {
     case 1:
     {
         system("cls");
         ifstream f("menu.txt");
-        while(!f.eof())
+        while (!f.eof())
         {
             char a;
             a = f.get();
             cout << a;
         }
         cout << "\t\t\t查询完成，按任意键返回";
-        getch();
+        errget = _getch();
         student1.searchfood(h);
     }
     case 2:
@@ -1590,7 +1630,7 @@ void User::searchfood(char h)
         exit(1);
     default:
         cout << "\t\t\t请选择0、1、2、3、4、5三个功能键...";
-        getch();
+        errget = _getch();
         student1.searchfood(h);
         break;
 
@@ -1600,15 +1640,20 @@ void User::searchfood(char h)
 //更新evaluate.txt中的数据
 void InitialScore()
 {
-    FILE *fp;
-    if((fp = fopen("evaluate.txt", "a")) == NULL)
+    FILE* fp;
+    errno_t err;
+    if ((err = fopen_s(&fp,"evaluate.txt", "a")) == NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
     //将菜谱中的菜品全部读出来存在FoodMssage数组中
-    if((fp = fopen("menu.txt", "r")) == NULL)
+    if ((err = fopen_s(&fp,"menu.txt", "r")) == NULL)
     {
         printf("can't open the file menu.txt\n");
         exit(0);
@@ -1618,19 +1663,23 @@ void InitialScore()
     char foodid[20];
     char foodprice[20];
     fseek(fp, 0, SEEK_SET);     /*读写位置移动到文件开始处*/
-    while(!feof(fp))                    /*检查文件是否结束*/
+    while (!feof(fp))                    /*检查文件是否结束*/
     {
-        fscanf(fp, "%s %s %s", foodid, foodname, foodprice);
-        strcpy(FoodMssage[num].FoodId, foodid);
-        strcpy(FoodMssage[num].FoodName, foodname);
+        fscanf_s(fp, "%s %s %s", foodid, _countof(foodid), foodname, _countof(foodname), foodprice, _countof(foodprice));
+        strcpy_s(FoodMssage[num].FoodId, foodid);
+        strcpy_s(FoodMssage[num].FoodName, foodname);
         FoodMssage[num].socre = 0;
         FoodMssage[num].socernum = 0;
         foodnum = num;
         num++;
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
     //将evaluate.txt中的评价信息全部存入到FoodMssage数组中
-    if((fp = fopen("evaluate.txt", "r")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "r")) == NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
@@ -1638,10 +1687,13 @@ void InitialScore()
     num = 0;
     int foodscore = 0;
     int foodscorenum = 0;
+
+
     fseek(fp, 0, SEEK_SET);    /*读写位置移动到文件开始处*/
-    while(!feof(fp))                    /*检查文件是否结束*/
+
+    while (!feof(fp))                    /*检查文件是否结束*/
     {
-        fscanf(fp, "%s %s %d %d", foodid, foodname, &foodscore, &foodscorenum);
+        fscanf_s(fp, "%s %s %d %d", foodid, _countof(foodid),foodname, _countof(foodname), &foodscore, &foodscorenum);
         for (num = 0; num < 20; num++)
         {
             if ((strcmp(FoodMssage[num].FoodId, foodid) == 0) && (strcmp(FoodMssage[num].FoodName, foodname) == 0))
@@ -1651,9 +1703,13 @@ void InitialScore()
             }
         }
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
     //将FoodMssage数组中更新后的评价信息全部存入到evaluate.txt中
-    if((fp = fopen("evaluate.txt", "w")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "w")) == NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
@@ -1662,29 +1718,34 @@ void InitialScore()
     {
         fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum);
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
 
 }
 
 //从evaluate.txt中输出数据到链表中
-NodeTp *GetData()
+NodeTp* GetData()
 {
-    NodeTp *h, *p, *last;
+    NodeTp* h, * p, * last;
     CreateNode(h);//建立头结点
     last = h;
-    FILE *fp;
-    if((fp = fopen("evaluate.txt", "r")) == NULL)
+    FILE* fp;
+    errno_t err;
+    if ((err = fopen_s(&fp,"evaluate.txt", "r")) == NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
     }
 
     fseek(fp, 0, SEEK_SET);    //读写位置移动到文件开始处
-    while(!feof(fp))                    //检查文件是否结束
+    while (!feof(fp))                    //检查文件是否结束
     {
         CreateNode(p);//建立一个新的节点
-        fscanf(fp, "%s %s %d %d", p->data.FoodId, p->data.FoodName, &p->data.socre, &p->data.socernum);
-        last ->next = p;
+        fscanf_s(fp, "%s %s %d %d", &p->data.FoodId, &p->data.FoodName, &p->data.socre, &p->data.socernum,20);
+        last->next = p;
         last = p;
         foodnum--;
         if (!foodnum)
@@ -1700,17 +1761,18 @@ NodeTp *GetData()
 void ShowFoodScore()
 {
     system("cls");
-    NodeTp *h, *p;
+    NodeTp* h, * p;
     h = GetData();
+    char errget;
     cout << "\t   菜品编号\t   菜品名称\t   菜品评分\t   评分总人数" << endl;
     p = h->next;//h为头指针
     //输出链表中的信息
-    while(p)
+    while (p)
     {
         cout << "\t\t" << p->data.FoodId << "\t\t" << p->data.FoodName << "\t\t" << p->data.socre << "\t\t" << p->data.socernum << endl;
         p = p->next;
     }
-    getch();
+    errget = _getch();
     manager1.Adm_Windows();
 }
 
@@ -1743,8 +1805,9 @@ void WriteScore()
         cout << "\t\t\t您输入的菜品编号或者菜品名称有误!";
         return;
     }
-    FILE *fp;
-    if((fp = fopen("evaluate.txt", "w")) == NULL)
+    FILE* fp;
+    errno_t err;
+    if ((err = fopen_s(&fp,"evaluate.txt", "w")) == NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
@@ -1753,7 +1816,11 @@ void WriteScore()
     {
         fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum); //评价信息保存在文件中
     }
-    fclose(fp);
+    if (fp != NULL)
+    {
+        fclose(fp);
+        fp = NULL;
+    }
 }
 
 /************主函数**************/
@@ -1761,9 +1828,11 @@ int main()
 {
     InitialFile();
     InitialScore();
-    FILE *fin = fopen("stu_info.txt", "r");
+    errno_t err;
+    FILE* fin;
+    err = fopen_s(&fin, "stu_info.txt", "r");
     int i = 0;
-    while(fscanf(fin, "%s %s %d", members[i].number, members[i].name, &members[i].money) != EOF)
+    while (fscanf_s(fin, "%s %s %d", members[i].number, _countof(members[i].number),members[i].name, _countof(members[i].number), &members[i].money) != EOF,20)
         i++;
     sum = i;
     mainmenu();
@@ -1772,3 +1841,15 @@ int main()
 
 
 
+
+
+// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
+// 调试程序: F5 或调试 >“开始调试”菜单
+
+// 入门使用技巧: 
+//   1. 使用解决方案资源管理器窗口添加/管理文件
+//   2. 使用团队资源管理器窗口连接到源代码管理
+//   3. 使用输出窗口查看生成输出和其他消息
+//   4. 使用错误列表窗口查看错误
+//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
+//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件

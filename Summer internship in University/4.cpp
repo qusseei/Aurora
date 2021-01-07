@@ -1,4 +1,4 @@
-// ÖÕ¼«°æ.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// ç»ˆæç‰ˆ.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -11,10 +11,10 @@ using namespace std;
 static int sum = 0;
 int foodnum = 0;
 
-void ShowFoodScore();           /*ÌáÇ°ÉùÃ÷¹ÜÀíÔ±²é¿´Ñ§ÉúÒâ¼û·´À¡º¯Êı*/
-void WriteScore();              /*Ñ§ÉúÒâ¼û·´À¡º¯Êı*/
+void ShowFoodScore();           /*æå‰å£°æ˜ç®¡ç†å‘˜æŸ¥çœ‹å­¦ç”Ÿæ„è§åé¦ˆå‡½æ•°*/
+void WriteScore();              /*å­¦ç”Ÿæ„è§åé¦ˆå‡½æ•°*/
 
-typedef struct score            /*¶¨ÒåÈ«¾Ö±äÁ¿ºÍÊı×é*/
+typedef struct score            /*å®šä¹‰å…¨å±€å˜é‡å’Œæ•°ç»„*/
 {
     char FoodId[20];
     char FoodName[20];
@@ -29,10 +29,10 @@ typedef struct node
     foodsocre data;
     struct node *next;
 } NodeTp;
-#define CreateNode(p) p = (NodeTp *)malloc(sizeof(NodeTp));//½¨Á¢½ÚµãµÄºê
-#define DeleteNode(p) free((void *)p);//É¾³ı½ÚµãµÄºê
+#define CreateNode(p) p = (NodeTp *)malloc(sizeof(NodeTp));//å»ºç«‹èŠ‚ç‚¹çš„å®
+#define DeleteNode(p) free((void *)p);//åˆ é™¤èŠ‚ç‚¹çš„å®
 
-class User                      /*ÓÃ»§Àà*/
+class User                      /*ç”¨æˆ·ç±»*/
 {
 private:
     char usename[20];
@@ -53,21 +53,21 @@ public:
 User u;
 
 
-struct S_inf                    /*Ñ§Éú×ÊÁÏ½á¹¹Ìå*/
+struct S_inf                    /*å­¦ç”Ÿèµ„æ–™ç»“æ„ä½“*/
 {
     char number[40];
     char name[40];
     int money;
 } members[N];
 
-struct foods                    /*²ËÆ·ĞÅÏ¢½á¹¹Ìå*/
+struct foods                    /*èœå“ä¿¡æ¯ç»“æ„ä½“*/
 {
     int number;
     string name;
-} foods[N];                     /*½á¹¹Ìå¶ÔÏó*/
+} foods[N];                     /*ç»“æ„ä½“å¯¹è±¡*/
 
 
-class manager_use: public User  /*ÓÉÓÃ»§ÀàÅÉÉúµÄ¹ÜÀíÔ±²Ù×÷Àà*/
+class manager_use: public User  /*ç”±ç”¨æˆ·ç±»æ´¾ç”Ÿçš„ç®¡ç†å‘˜æ“ä½œç±»*/
 {
 private:
     char ID[20];
@@ -84,10 +84,10 @@ public:
     void changefood_price_name();
     void setstu();
 };
-manager_use manager1;           /*¹ÜÀíÔ±²Ù×÷¶ÔÏó*/
+manager_use manager1;           /*ç®¡ç†å‘˜æ“ä½œå¯¹è±¡*/
 
 
-class student_use: public User  /*ÓÉÓÃ»§ÀàÅÉÉúµÄÑ§Éú²Ù×÷Àà*/
+class student_use: public User  /*ç”±ç”¨æˆ·ç±»æ´¾ç”Ÿçš„å­¦ç”Ÿæ“ä½œç±»*/
 {
 public:
     void save_money(int n);
@@ -95,27 +95,27 @@ public:
     void readnumber();
     void buy(int n);
 };
-student_use student1;           /*Ñ§ÉúÀà²Ù×÷¶ÔÏó*/
+student_use student1;           /*å­¦ç”Ÿç±»æ“ä½œå¯¹è±¡*/
 
-/*ÌáÇ°´´½¨ĞÅÏ¢±£´æÎÄ±¾*/
+/*æå‰åˆ›å»ºä¿¡æ¯ä¿å­˜æ–‡æœ¬*/
 void InitialFile()
 {
     FILE *fp;
-    if((fp = fopen("¹ÜÀíÔ±ÕËºÅ.txt", "a")) == NULL)
+    if((fp = fopen("ç®¡ç†å‘˜è´¦å·.txt", "a")) == NULL)
     {
         printf("can't open the file use.txt\n");
         exit(0);
     }
     fclose(fp);
 
-    if((fp = fopen("²ËÆ×.txt", "a")) == NULL)
+    if((fp = fopen("èœè°±.txt", "a")) == NULL)
     {
         printf("can't open the file use.txt\n");
         exit(0);
     }
     fclose(fp);
 
-    if((fp = fopen("Ñ§ÉúĞÅÏ¢.txt", "a")) == NULL)
+    if((fp = fopen("å­¦ç”Ÿä¿¡æ¯.txt", "a")) == NULL)
     {
         printf("can't open the file use.txt\n");
         exit(0);
@@ -124,22 +124,22 @@ void InitialFile()
 
 }
 
-/*Ö÷²Ëµ¥*/
+/*ä¸»èœå•*/
 void mainmenu()
 {
     system("cls");
     int nselete;
     char sTemp[20];
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾Ö÷²Ëµ¥¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª* " << endl;
-    cout << "\t\t\t*         1 ¹ÜÀíÕß×ÛºÏÏµÍ³         * " << endl;
-    cout << "\t\t\t*         2 Ñ§Éú×ÛºÏÏµ  Í³         * " << endl;
-    cout << "\t\t\t*         0 ÍË  ³ö  Ïµ  Í³         * " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª* " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€ä¸»èœå•ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”* " << endl;
+    cout << "\t\t\t*         1 ç®¡ç†è€…ç»¼åˆç³»ç»Ÿ         * " << endl;
+    cout << "\t\t\t*         2 å­¦ç”Ÿç»¼åˆç³»  ç»Ÿ         * " << endl;
+    cout << "\t\t\t*         0 é€€  å‡º  ç³»  ç»Ÿ         * " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”* " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << endl << "\t\t\tÇëÑ¡ÔñÊı×Ö£º";
+    cout << endl << "\t\t\tè¯·é€‰æ‹©æ•°å­—ï¼š";
     cin >> sTemp;
     if (strcmp(sTemp, "1") == 0)
     {
@@ -170,20 +170,20 @@ void mainmenu()
         exit(0);
         break;
     default:
-        cout << "\t\t\tÊäÈë´íÎó!ÇëÑ¡Ôñ0¡¢1¡¢2Èı¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¾“å…¥é”™è¯¯!è¯·é€‰æ‹©0ã€1ã€2ä¸‰ä¸ªåŠŸèƒ½é”®...";
         getch();
         mainmenu();
         break;
     }
 }
 
-/*¶ÁÈ¡ÓÃ»§Ãû×Ö*/
+/*è¯»å–ç”¨æˆ·åå­—*/
 void readname(char *usename)
 {
     cin >> usename;
 }
 
-/*¶ÁÈ¡ÓÃ»§ÃÜÂë*/
+/*è¯»å–ç”¨æˆ·å¯†ç */
 void readpassword(char *password)
 {
     int k = 0;
@@ -205,82 +205,82 @@ void readpassword(char *password)
     cout << endl;
 }
 
-/*×¢²áĞÂ¹ÜÀíÔ±ÕËºÅ*/
+/*æ³¨å†Œæ–°ç®¡ç†å‘˜è´¦å·*/
 void User::set()
 {
     int j;
-    cout << "\t\t\tÇëÊäÈë×¢²áÂë:";
+    cout << "\t\t\tè¯·è¾“å…¥æ³¨å†Œç :";
     cin >> j;
     if(j == 123)
     {
-        cout << "\t\t\tÉèÖÃÓÃ»§Ãû£º";
+        cout << "\t\t\tè®¾ç½®ç”¨æˆ·åï¼š";
         readname(usename);
-        cout << "\t\t\tÉèÖÃÃÜÂë:";
+        cout << "\t\t\tè®¾ç½®å¯†ç :";
         readpassword(password);
-        ofstream ofile("¹ÜÀíÔ±ÕËºÅ.txt", ios_base::app);
+        ofstream ofile("ç®¡ç†å‘˜è´¦å·.txt", ios_base::app);
         ofile << usename << endl << password << endl;
         ofile.close();
-        cout << "\n\t\t\tÉèÖÃ³É¹¦...";
+        cout << "\n\t\t\tè®¾ç½®æˆåŠŸ...";
         getch();
     }
     else
     {
-        cout << "\t\t\t×¢²áÂë´íÎó£¬ÎŞ·¨×¢²áĞÂÕËºÅ£¡";
+        cout << "\t\t\tæ³¨å†Œç é”™è¯¯ï¼Œæ— æ³•æ³¨å†Œæ–°è´¦å·ï¼";
         getch();
     }
 }
 
-/*¹ÜÀíÔ±ÕË»§µÇÂ¼*/
+/*ç®¡ç†å‘˜è´¦æˆ·ç™»å½•*/
 void User::load()
 {
     char user[20];
     char word[20];
     User uu;
-    cout << "\t\t\tÇëÊäÈëÓÃ»§Ãû:";
+    cout << "\t\t\tè¯·è¾“å…¥ç”¨æˆ·å:";
     readname(uu.usename);
-    cout << "\t\t\tÇëÊäÈëÃÜÂë:";
+    cout << "\t\t\tè¯·è¾“å…¥å¯†ç :";
     readpassword(uu.password);
     ifstream ifile;
-    ifile.open("¹ÜÀíÔ±ÕËºÅ.txt", ios_base::in);
+    ifile.open("ç®¡ç†å‘˜è´¦å·.txt", ios_base::in);
     while(ifile.good())
     {
         ifile.getline(user, 100);
         ifile.getline(word, 100);
         if(strcmp(uu.usename, user) == 0 && strcmp(uu.password, word) == 0)
         {
-            cout << "\t\t\tµÇÂ½³É¹¦(ÈÎÒâ¼ü¼ÌĞø)...";
+            cout << "\t\t\tç™»é™†æˆåŠŸ(ä»»æ„é”®ç»§ç»­)...";
             manager1.Adm_Windows();
             ifile.close();
             getch();
             return;
         }
     }
-    cout << "\t\t\tÄúµÄÕËºÅ»òÃÜÂë´íÎó(ÈÎÒâ¼ü¼ÌĞø)...";
+    cout << "\t\t\tæ‚¨çš„è´¦å·æˆ–å¯†ç é”™è¯¯(ä»»æ„é”®ç»§ç»­)...";
     getch();
     u.Adm_Account();
     ifile.close();
     getch();
 }
 
-/*¹ÜÀíÔ±ÕË»§Ö÷½çÃæº¯Êı*/
+/*ç®¡ç†å‘˜è´¦æˆ·ä¸»ç•Œé¢å‡½æ•°*/
 void User::Adm_Account()
 {
     system("cls");
     int nselete;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡¾¹ÜÀíÔ±ÕÊ»§¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*          1.¹ÜÀíÔ±×¢²á            *" << endl;
-    cout << "\t\t\t*          2.¹ÜÀíÔ±µÇÂ½            *" << endl;
-    cout << "\t\t\t*          3.·µ»ØÖ÷²Ëµ¥            *" << endl;
-    cout << "\t\t\t*          0.ÍË³öÏµ  Í³            *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª* " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”ã€ç®¡ç†å‘˜å¸æˆ·ã€‘â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*          1.ç®¡ç†å‘˜æ³¨å†Œ            *" << endl;
+    cout << "\t\t\t*          2.ç®¡ç†å‘˜ç™»é™†            *" << endl;
+    cout << "\t\t\t*          3.è¿”å›ä¸»èœå•            *" << endl;
+    cout << "\t\t\t*          0.é€€å‡ºç³»  ç»Ÿ            *" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”* " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     do
     {
         fflush(stdin);
         cin.clear();
-        cout << "\n\t\t\tÊäÈëÄúÒªÖ´ĞĞ²Ù×÷µÄĞòºÅ:";
+        cout << "\n\t\t\tè¾“å…¥æ‚¨è¦æ‰§è¡Œæ“ä½œçš„åºå·:";
         cin >> nselete;
     }
     while(cin.fail());
@@ -301,62 +301,62 @@ void User::Adm_Account()
         exit(1);
         break;
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3ËÄ¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3å››ä¸ªåŠŸèƒ½é”®...";
         getch();
         u.Adm_Account();
     }
 
 }
 
-/*¹ÜÀíÔ±Â¼ÈëÑ§Éúº¯Êı*/
+/*ç®¡ç†å‘˜å½•å…¥å­¦ç”Ÿå‡½æ•°*/
 void manager_use::setstu()
 {
     char ch[] = "000";
     system("cls");
     int i = 0;
     cout << endl << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾Â¼ÈëÑ§ÉúĞÅÏ¢¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl << endl << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€å½•å…¥å­¦ç”Ÿä¿¡æ¯ã€‘â€”â€”â€”â€”â€”â•®" << endl << endl << endl;
     for(;;)
     {
-        cout << "\t\t\tÇëÊäÑ§ºÅ:";
+        cout << "\t\t\tè¯·è¾“å­¦å·:";
         cin >> members[i].number;
         if(!strcmp(members[i].number, ch))
         {
             Adm_Windows();
             break;
         }
-        cout << endl << "\t\t\tÇëÊäÈëĞÕÃû£º";
+        cout << endl << "\t\t\tè¯·è¾“å…¥å§“åï¼š";
         cin >> members[i].name;
-        ofstream ofile("Ñ§ÉúĞÅÏ¢.txt", ios_base::app);
+        ofstream ofile("å­¦ç”Ÿä¿¡æ¯.txt", ios_base::app);
         ofile << members[i].number << " " << members[i].name << " " << members[i].money << endl;
         ofile.close();
-        cout << "\n\t\t\tÉèÖÃ³É¹¦...ÇëÒÔ'000'½áÊø,ÈçÏë¼ÌĞøÉèÖÃÇëÊäÈëÑ§ºÅ" << endl;
+        cout << "\n\t\t\tè®¾ç½®æˆåŠŸ...è¯·ä»¥'000'ç»“æŸ,å¦‚æƒ³ç»§ç»­è®¾ç½®è¯·è¾“å…¥å­¦å·" << endl;
         members[i].money = 0;
         i++;
     }
     sum = i;
 }
 
-/*¹ÜÀíÔ±²Ù×÷Ö÷½çÃæº¯Êı*/
+/*ç®¡ç†å‘˜æ“ä½œä¸»ç•Œé¢å‡½æ•°*/
 void manager_use::Adm_Windows()
 {
     system("cls");
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾¹ÜÀíÔ±´°¿Ú¡¿¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*            1 ²Ë µ¥ ²é  Ñ¯        * " << endl;
-    cout << "\t\t\t*            2 ²Ë Æ· Ôö  ¼Ó        * " << endl;
-    cout << "\t\t\t*            3 ²Ë Æ· É¾  ³ı        * " << endl;
-    cout << "\t\t\t*            4 ²Ë Æ· ĞŞ  ¸Ä        * " << endl;
-    cout << "\t\t\t*            5 Ñ§ÉúĞÅÏ¢Â¼Èë        * " << endl;
-    cout << "\t\t\t*            6 ²é ¿´ ÆÀ  ¼Û        * " << endl;
-    cout << "\t\t\t*            7 ·µ»Ø ÉÏ Ò»²ã        * " << endl;
-    cout << "\t\t\t*            8 ·µ»Ø Ö÷ ²Ëµ¥        * " << endl;
-    cout << "\t\t\t*            0 ÍË ³ö Ïµ  Í³        * " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€ç®¡ç†å‘˜çª—å£ã€‘â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*            1 èœ å• æŸ¥  è¯¢        * " << endl;
+    cout << "\t\t\t*            2 èœ å“ å¢  åŠ         * " << endl;
+    cout << "\t\t\t*            3 èœ å“ åˆ   é™¤        * " << endl;
+    cout << "\t\t\t*            4 èœ å“ ä¿®  æ”¹        * " << endl;
+    cout << "\t\t\t*            5 å­¦ç”Ÿä¿¡æ¯å½•å…¥        * " << endl;
+    cout << "\t\t\t*            6 æŸ¥ çœ‹ è¯„  ä»·        * " << endl;
+    cout << "\t\t\t*            7 è¿”å› ä¸Š ä¸€å±‚        * " << endl;
+    cout << "\t\t\t*            8 è¿”å› ä¸» èœå•        * " << endl;
+    cout << "\t\t\t*            0 é€€ å‡º ç³»  ç»Ÿ        * " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄúÒªÑ¡ÔñµÄÊı×Ö£º";
+    cout << "\t\t\tè¯·è¾“å…¥æ‚¨è¦é€‰æ‹©çš„æ•°å­—ï¼š";
     int a;
     cin >> a;
     switch(a)
@@ -381,30 +381,30 @@ void manager_use::Adm_Windows()
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3¡¢4¡¢5¡¢6¡¢7¡¢8¾Å¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3ã€4ã€5ã€6ã€7ã€8ä¹ä¸ªåŠŸèƒ½é”®...";
         getch();
         manager1.Adm_Windows();
         break;
     }
 }
 
-/*¹ÜÀíÔ±²Ëµ¥ĞÅÏ¢²éÑ¯×Óº¯Êı£¨Í¨¹ı²ËÆ·±àºÅ²éÑ¯£©*/
+/*ç®¡ç†å‘˜èœå•ä¿¡æ¯æŸ¥è¯¢å­å‡½æ•°ï¼ˆé€šè¿‡èœå“ç¼–å·æŸ¥è¯¢ï¼‰*/
 void User::searchfood_number(int h)
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·±àºÅ²éÑ¯ÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“ç¼–å·æŸ¥è¯¢ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËù²éÑ¯µÄ²ËÆ·±àºÅ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€æŸ¥è¯¢çš„èœå“ç¼–å·ï¼š";
     cin >> a;
     string information[20][3];
     for(int i = 0; i < 20; i++)
@@ -412,10 +412,10 @@ void User::searchfood_number(int h)
         f >> information[i][0] >> information[i][1] >> information[i][2];
         if(a == information[i][0])
         {
-            cout << endl << endl << "\t±àºÅ" << "\tÃû³Æ" << "\t¼Û¸ñ" << endl;
+            cout << endl << endl << "\tç¼–å·" << "\tåç§°" << "\tä»·æ ¼" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             n = 1;
-            cout << endl << endl << "\t\t\t²éÑ¯Íê³É£¡" << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯  ";
+            cout << endl << endl << "\t\t\tæŸ¥è¯¢å®Œæˆï¼" << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢  ";
             int a;
             cin >> a;
             switch(a)
@@ -425,7 +425,7 @@ void User::searchfood_number(int h)
             case 2:
                 manager1.searchfood_number(0);
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 manager1.searchfood_number(0);
                 break;
@@ -434,7 +434,7 @@ void User::searchfood_number(int h)
     }
     if(n == 0)
     {
-        cout << "\t\t\tÄúËù²éÑ¯µÄ²ËÆ·²»´æÔÚ£¡" << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯        " << endl;
+        cout << "\t\t\tæ‚¨æ‰€æŸ¥è¯¢çš„èœå“ä¸å­˜åœ¨ï¼" << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢        " << endl;
         int a;
         cin >> a;
         switch(a)
@@ -444,7 +444,7 @@ void User::searchfood_number(int h)
         case 2:
             manager1.searchfood_number(0);
         default:
-            cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+            cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
             getch();
             manager1.searchfood_number(0);
             break;
@@ -452,23 +452,23 @@ void User::searchfood_number(int h)
     }
 }
 
-/*¹ÜÀíÔ±²ËÆ·ĞÅÏ¢²éÑ¯×Óº¯Êı£¨Í¨¹ı²ËÆ·Ãû×Ö²éÑ¯£©*/
+/*ç®¡ç†å‘˜èœå“ä¿¡æ¯æŸ¥è¯¢å­å‡½æ•°ï¼ˆé€šè¿‡èœå“åå­—æŸ¥è¯¢ï¼‰*/
 void User::searchfood_name(int h)
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·Ãû³Æ²éÑ¯ÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“åç§°æŸ¥è¯¢ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËù²éÑ¯µÄ²ËÆ·Ãû³Æ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€æŸ¥è¯¢çš„èœå“åç§°ï¼š";
     cin >> a;
     string information[20][3];
     for(int i = 0; i < 20; i++)
@@ -476,10 +476,10 @@ void User::searchfood_name(int h)
         f >> information[i][0] >> information[i][1] >> information[i][2];
         if(a == information[i][1])
         {
-            cout << endl << endl << "\t±àºÅ" << "\tÃû³Æ" << "\t¼Û¸ñ" << endl;
+            cout << endl << endl << "\tç¼–å·" << "\tåç§°" << "\tä»·æ ¼" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             n = 1;
-            cout << endl << endl << "\t\t\t²éÑ¯Íê³É£¡" << endl << endl << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯  " << endl;
+            cout << endl << endl << "\t\t\tæŸ¥è¯¢å®Œæˆï¼" << endl << endl << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢  " << endl;
             int a;
             cin >> a;
             switch(a)
@@ -489,7 +489,7 @@ void User::searchfood_name(int h)
             case 2:
                 manager1.searchfood_name(0);
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 manager1.searchfood_name(0);
                 break;
@@ -498,7 +498,7 @@ void User::searchfood_name(int h)
     }
     if(n == 0)
     {
-        cout << "\n\t\t\tÄúËù²éÑ¯µÄ²ËÆ·²»´æÔÚ£¡" << endl << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯        " << endl << "\t\t\t";
+        cout << "\n\t\t\tæ‚¨æ‰€æŸ¥è¯¢çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢        " << endl << "\t\t\t";
         int a;
         cin >> a;
         switch(a)
@@ -508,7 +508,7 @@ void User::searchfood_name(int h)
         case 2:
             manager1.searchfood_name(0);
         default:
-            cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+            cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
             getch();
             manager1.searchfood_name(0);
             break;
@@ -516,23 +516,23 @@ void User::searchfood_name(int h)
     }
 }
 
-/*¹ÜÀíÔ±²ËÆ·ĞÅÏ¢²éÑ¯Ö÷º¯Êı*/
+/*ç®¡ç†å‘˜èœå“ä¿¡æ¯æŸ¥è¯¢ä¸»å‡½æ•°*/
 void User::searchfood(int h)
 {
     system("cls");
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*            1 ²éÑ¯ËùÓĞ²ËÆ·          *" << endl;
-    cout << "\t\t\t*            2 °´ ±àºÅ ²éÑ¯          *" << endl;
-    cout << "\t\t\t*            3 °´ ²ËÃû ²éÑ¯          *" << endl;
-    cout << "\t\t\t*            4 ·µ»Ø ÉÏ Ò»²ã          *" << endl;
-    cout << "\t\t\t*            5 ·µ»Ø Ö÷ ²Ëµ¥          *" << endl;
-    cout << "\t\t\t*            0 ÍË ³ö Ïµ  Í³          *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*            1 æŸ¥è¯¢æ‰€æœ‰èœå“          *" << endl;
+    cout << "\t\t\t*            2 æŒ‰ ç¼–å· æŸ¥è¯¢          *" << endl;
+    cout << "\t\t\t*            3 æŒ‰ èœå æŸ¥è¯¢          *" << endl;
+    cout << "\t\t\t*            4 è¿”å› ä¸Š ä¸€å±‚          *" << endl;
+    cout << "\t\t\t*            5 è¿”å› ä¸» èœå•          *" << endl;
+    cout << "\t\t\t*            0 é€€ å‡º ç³»  ç»Ÿ          *" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄúÒªÑ¡ÔñµÄÊı×Ö£º";
+    cout << "\t\t\tè¯·è¾“å…¥æ‚¨è¦é€‰æ‹©çš„æ•°å­—ï¼š";
     int a;
     cin >> a;
     switch(a)
@@ -540,14 +540,14 @@ void User::searchfood(int h)
     case 1:
     {
         system("cls");
-        ifstream f("²ËÆ×.txt");
+        ifstream f("èœè°±.txt");
         while(!f.eof())
         {
             char a;
             a = f.get();
             cout << a;
         }
-        cout << "\t\t\t²éÑ¯Íê³É£¬°´ÈÎÒâ¼ü·µ»Ø";
+        cout << "\t\t\tæŸ¥è¯¢å®Œæˆï¼ŒæŒ‰ä»»æ„é”®è¿”å›";
         getch();
         manager1.searchfood(0);
     }
@@ -563,68 +563,68 @@ void User::searchfood(int h)
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3¡¢4¡¢5Áù¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3ã€4ã€5å…­ä¸ªåŠŸèƒ½é”®...";
         getch();
         manager1.searchfood(0);
         break;
     }
 }
 
-/*²ËÆ·ĞÅÏ¢Ìí¼ÓÖ÷º¯Êı*/
+/*èœå“ä¿¡æ¯æ·»åŠ ä¸»å‡½æ•°*/
 void manager_use::addfood()
 {
     system("cls");
     string a, b, c;
-    ofstream f("²ËÆ×.txt", ios::app);
+    ofstream f("èœè°±.txt", ios::app);
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·Ôö¼Ó¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“å¢åŠ ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*        »¶Ó­À´µ½²ËÆ·Ôö¼ÓÏµÍ³        *" << endl;
+    cout << "\t\t\t*        æ¬¢è¿æ¥åˆ°èœå“å¢åŠ ç³»ç»Ÿ        *" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëËùÌí¼ÓµÄ²ËÆ·±àºÅ£º";
+    cout << "\t\t\tè¯·è¾“å…¥æ‰€æ·»åŠ çš„èœå“ç¼–å·ï¼š";
     cin >> a;
     f << endl << a << "        ";
-    cout << "\n\t\t\tÇëÊäÈëËùÌí¼ÓµÄ²ËÆ·Ãû³Æ£º";
+    cout << "\n\t\t\tè¯·è¾“å…¥æ‰€æ·»åŠ çš„èœå“åç§°ï¼š";
     cin >> b;
     f << b << "           ";
-    cout << "\n\t\t\tÇëÊäÈëËùÌí¼ÓµÄ²ËÆ·¼Û¸ñ£º";
+    cout << "\n\t\t\tè¯·è¾“å…¥æ‰€æ·»åŠ çš„èœå“ä»·æ ¼ï¼š";
     cin >> c;
     f << c << endl;
-    cout << "\n\t\t\tÌí¼ÓÍê³É£¡ÈÎÒâ¼ü·µ»Ø...";
+    cout << "\n\t\t\tæ·»åŠ å®Œæˆï¼ä»»æ„é”®è¿”å›...";
     getch();
     manager1.Adm_Windows();
 }
 
-/*²ËÆ·ĞÅÏ¢É¾³ı×Óº¯Êı£¨Í¨¹ı²ËÆ·±àºÅÉ¾³ı£©*/
+/*èœå“ä¿¡æ¯åˆ é™¤å­å‡½æ•°ï¼ˆé€šè¿‡èœå“ç¼–å·åˆ é™¤ï¼‰*/
 void manager_use::deletefood_number()
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·É¾³ı¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“åˆ é™¤ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·±àºÅÉ¾³ıÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“ç¼–å·åˆ é™¤ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËùÒªÉ¾³ıµÄ²ËÆ·±àºÅ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦åˆ é™¤çš„èœå“ç¼–å·ï¼š";
     cin >> a;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\t\t\tè¯·é€‰æ‹©ï¼š";
     int d;
     cin >> d;
     switch(d)
@@ -646,7 +646,7 @@ void manager_use::deletefood_number()
             if(information[i][0] == "") break;
         }
         f.close();
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             if(information[i][0] != "0")
@@ -657,7 +657,7 @@ void manager_use::deletefood_number()
         g.close();
         if(n == 0)
         {
-            cout << "\t\t\tÄúËùÒªÉ¾³ıµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøÉ¾³ı        ";
+            cout << "\t\t\tæ‚¨æ‰€è¦åˆ é™¤çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­åˆ é™¤        ";
             int a;
             cin >> a;
             switch(a)
@@ -667,7 +667,7 @@ void manager_use::deletefood_number()
             case 2:
                 manager1.deletefood_number();
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 manager1.deletefood_number();
                 break;
@@ -675,7 +675,7 @@ void manager_use::deletefood_number()
         }
         if(n == 1)
         {
-            cout << "\t\t\tÒÑÉ¾³ı£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\t\t\tå·²åˆ é™¤ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.deletefood();
         }
@@ -685,32 +685,32 @@ void manager_use::deletefood_number()
     }
 }
 
-/*²ËÆ·ĞÅÏ¢É¾³ı×Óº¯Êı£¨Í¨¹ı²ËÆ·Ãû³ÆÉ¾³ı£©*/
+/*èœå“ä¿¡æ¯åˆ é™¤å­å‡½æ•°ï¼ˆé€šè¿‡èœå“åç§°åˆ é™¤ï¼‰*/
 void manager_use::deletefood_name()
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·É¾³ı¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“åˆ é™¤ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·Ãû³ÆÉ¾³ıÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“åç§°åˆ é™¤ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*          **************            *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËùÒªÉ¾³ıµÄ²ËÆ·Ãû³Æ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦åˆ é™¤çš„èœå“åç§°ï¼š";
     cin >> a;
     cout << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\n\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\n\t\t\tè¯·é€‰æ‹©ï¼š";
     int d;
     cin >> d;
     switch(d)
@@ -732,7 +732,7 @@ void manager_use::deletefood_name()
             if(information[i][0] == "") break;
         }
         f.close();
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             if(information[i][1] != "0") g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
@@ -740,7 +740,7 @@ void manager_use::deletefood_name()
         f.close();
         if(n == 0)
         {
-            cout << "\t\t\tÄúËùÒªÉ¾³ıµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøÉ¾³ı        ";
+            cout << "\t\t\tæ‚¨æ‰€è¦åˆ é™¤çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­åˆ é™¤        ";
             int a;
             cin >> a;
             switch(a)
@@ -753,7 +753,7 @@ void manager_use::deletefood_name()
         }
         if(n == 1)
         {
-            cout << "\n\t\t\tÒÑÉ¾³ı£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\n\t\t\tå·²åˆ é™¤ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.deletefood();
         }
@@ -761,30 +761,30 @@ void manager_use::deletefood_name()
     case 2:
         manager1.deletefood();
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Èı¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸‰ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*²ËÆ·ĞÅÏ¢É¾³ıÖ÷º¯Êı*/
+/*èœå“ä¿¡æ¯åˆ é™¤ä¸»å‡½æ•°*/
 void manager_use::deletefood()
 {
     system("cls");
     cout << endl << endl << endl << endl << endl;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·É¾³ı¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“åˆ é™¤ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*         ***************            *" << endl;
-    cout << "\t\t\t*        »¶Ó­À´µ½²ËÆ·É¾³ıÏµÍ³        *" << endl;
+    cout << "\t\t\t*        æ¬¢è¿æ¥åˆ°èœå“åˆ é™¤ç³»ç»Ÿ        *" << endl;
     cout << "\t\t\t*         ***************            *" << endl;
-    cout << "\t\t\t*           1.°´±àºÅÉ¾³ı             *" << endl;
-    cout << "\t\t\t*           2.°´²ËÃûÉ¾³ı             *" << endl;
-    cout << "\t\t\t*           3.·µ»ØÉÏÒ»²ã             *" << endl;
-    cout << "\t\t\t*           4.·µ»ØÖ÷²Ëµ¥             *" << endl;
-    cout << "\t\t\t*           0.ÍË³öÏµ  Í³             *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*           1.æŒ‰ç¼–å·åˆ é™¤             *" << endl;
+    cout << "\t\t\t*           2.æŒ‰èœååˆ é™¤             *" << endl;
+    cout << "\t\t\t*           3.è¿”å›ä¸Šä¸€å±‚             *" << endl;
+    cout << "\t\t\t*           4.è¿”å›ä¸»èœå•             *" << endl;
+    cout << "\t\t\t*           0.é€€å‡ºç³»  ç»Ÿ             *" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
     int a;
     cin >> a;
@@ -802,39 +802,39 @@ void manager_use::deletefood()
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3¡¢4Îå¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3ã€4äº”ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*²ËÆ·ĞÅÏ¢ĞŞ¸Ä×Óº¯Êı£¨Í¨¹ı²ËÆ·±àºÅĞŞ¸Ä£©*/
+/*èœå“ä¿¡æ¯ä¿®æ”¹å­å‡½æ•°ï¼ˆé€šè¿‡èœå“ç¼–å·ä¿®æ”¹ï¼‰*/
 void manager_use::changefood_number()
 {
     system("cls");
     string a, b;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·±àºÅĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“ç¼–å·ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*        »¶Ó­À´µ½²ËÆ·±àºÅĞŞ¸ÄÏµÍ³      *" << endl;
+    cout << "\t\t\t*        æ¬¢è¿æ¥åˆ°èœå“ç¼–å·ä¿®æ”¹ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << endl << endl << "\t\t\tÇëÊäÈëÄãËùÒªĞŞ¸ÄµÄ²ËÆ·±àºÅ£º";
+    cout << endl << endl << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦ä¿®æ”¹çš„èœå“ç¼–å·ï¼š";
     cin >> a;
-    cout << endl << "\t\t\tÇëÊäÈëÄúÒª½«±àºÅĞŞ¸ÄÎª£º";
+    cout << endl << "\t\t\tè¯·è¾“å…¥æ‚¨è¦å°†ç¼–å·ä¿®æ”¹ä¸ºï¼š";
     cin >> b;
     cout << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\n\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\n\t\t\tè¯·é€‰æ‹©ï¼š";
     int d;
     cin >> d;
     switch(d)
@@ -842,7 +842,7 @@ void manager_use::changefood_number()
     case 1:
     {
         int m = 0;
-        ifstream f("²ËÆ×.txt", ios::binary);
+        ifstream f("èœè°±.txt", ios::binary);
         string information[20][3];
         int i;
         for(i = 0; i < 20; i++)
@@ -860,14 +860,14 @@ void manager_use::changefood_number()
                 n = 1;
             }
         }
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
         if(n == 0)
         {
-            cout << "\t\t\tÄúËùÒªĞŞ¸ÄµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøĞŞ¸Ä        ";
+            cout << "\t\t\tæ‚¨æ‰€è¦ä¿®æ”¹çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­ä¿®æ”¹        ";
             int a;
             cin >> a;
             switch(a)
@@ -877,14 +877,14 @@ void manager_use::changefood_number()
             case 2:
                 manager1.changefood_number();
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Èı¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸‰ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 break;
             }
         }
         else if(n == 1)
         {
-            cout << "\t\t\tÒÑĞŞ¸Ä£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\t\t\tå·²ä¿®æ”¹ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.changefood();
         }
@@ -892,39 +892,39 @@ void manager_use::changefood_number()
     case 2:
         manager1.changefood();
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*²ËÆ·ĞÅÏ¢ĞŞ¸Ä×Óº¯Êı£¨Í¨¹ı²ËÆ·Ãû³ÆĞŞ¸Ä£©*/
+/*èœå“ä¿¡æ¯ä¿®æ”¹å­å‡½æ•°ï¼ˆé€šè¿‡èœå“åç§°ä¿®æ”¹ï¼‰*/
 void manager_use::changefood_name()
 {
     system("cls");
     string a, b;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·Ãû³ÆĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“åç§°ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*       »¶Ó­À´µ½²ËÆ·Ãû³ÆĞŞ¸ÄÏµÍ³       *" << endl;
+    cout << "\t\t\t*       æ¬¢è¿æ¥åˆ°èœå“åç§°ä¿®æ”¹ç³»ç»Ÿ       *" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËùÒªĞŞ¸ÄµÄ²ËÆ·Ãû³Æ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦ä¿®æ”¹çš„èœå“åç§°ï¼š";
     cin >> a;
-    cout << endl << "\t\t\tÇëÊäÈëÄúÒª½«Ãû³ÆĞŞ¸ÄÎª£º";
+    cout << endl << "\t\t\tè¯·è¾“å…¥æ‚¨è¦å°†åç§°ä¿®æ”¹ä¸ºï¼š";
     cin >> b;
     cout << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\n\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\n\t\t\tè¯·é€‰æ‹©ï¼š";
     int d;
     cin >> d;
     switch(d)
@@ -932,7 +932,7 @@ void manager_use::changefood_name()
     case 1:
     {
         int m = 0;
-        ifstream f("²ËÆ×.txt", ios::binary);
+        ifstream f("èœè°±.txt", ios::binary);
         string information[20][3];
         int i;
         for(i = 0; i < 20; i++)
@@ -950,14 +950,14 @@ void manager_use::changefood_name()
                 n = 1;
             }
         }
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
         if(n == 0)
         {
-            cout << "\n\t\t\tÄúËùÒªĞŞ¸ÄµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøĞŞ¸Ä        ";
+            cout << "\n\t\t\tæ‚¨æ‰€è¦ä¿®æ”¹çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­ä¿®æ”¹        ";
             int a;
             cin >> a;
             switch(a)
@@ -970,7 +970,7 @@ void manager_use::changefood_name()
         }
         else if(n == 1)
         {
-            cout << "\n\t\t\tÒÑĞŞ¸Ä£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\n\t\t\tå·²ä¿®æ”¹ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.changefood();
         }
@@ -978,39 +978,39 @@ void manager_use::changefood_name()
     case 2:
         manager1.changefood();
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*²ËÆ·¼Û¸ñĞŞ¸Äº¯Êı£¨Í¨¹ı²ËÆ·±àºÅĞŞ¸Ä£©*/
+/*èœå“ä»·æ ¼ä¿®æ”¹å‡½æ•°ï¼ˆé€šè¿‡èœå“ç¼–å·ä¿®æ”¹ï¼‰*/
 void manager_use::changefood_price_number()
 {
     system("cls");
     string a, b;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·¼Û¸ñĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“ä»·æ ¼ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½°´²ËÆ·±àºÅĞŞ¸Ä¼Û¸ñÏµÍ³  *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°æŒ‰èœå“ç¼–å·ä¿®æ”¹ä»·æ ¼ç³»ç»Ÿ  *" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËùÒªĞŞ¸ÄµÄ²ËÆ·±àºÅ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦ä¿®æ”¹çš„èœå“ç¼–å·ï¼š";
     cin >> a;
-    cout << endl << "\t\t\tÇëÊäÈëÄúÒª½«¼Û¸ñĞŞ¸ÄÎª£º";
+    cout << endl << "\t\t\tè¯·è¾“å…¥æ‚¨è¦å°†ä»·æ ¼ä¿®æ”¹ä¸ºï¼š";
     cin >> b;
     cout << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\n\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\n\t\t\tè¯·é€‰æ‹©ï¼š";
     int e;
     cin >> e;
     switch(e)
@@ -1018,7 +1018,7 @@ void manager_use::changefood_price_number()
     case 1:
     {
         int m = 0;
-        ifstream f("²ËÆ×.txt", ios::binary);
+        ifstream f("èœè°±.txt", ios::binary);
         string information[20][3];
         int i;
         for(i = 0; i < 20; i++)
@@ -1036,14 +1036,14 @@ void manager_use::changefood_price_number()
                 n = 1;
             }
         }
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
         if(n == 0)
         {
-            cout << "\n\t\t\tÄúËùÒªĞŞ¸ÄµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøĞŞ¸Ä        ";
+            cout << "\n\t\t\tæ‚¨æ‰€è¦ä¿®æ”¹çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­ä¿®æ”¹        ";
             int a;
             cin >> a;
             switch(a)
@@ -1056,7 +1056,7 @@ void manager_use::changefood_price_number()
         }
         else if(n == 1)
         {
-            cout << "\n\t\t\tÒÑĞŞ¸Ä£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\n\t\t\tå·²ä¿®æ”¹ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.changefood();
         }
@@ -1064,39 +1064,39 @@ void manager_use::changefood_price_number()
     case 2:
         manager1.changefood();
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*²ËÆ·¼Û¸ñĞŞ¸Äº¯Êı£¨Í¨¹ı²ËÆ·Ãû³ÆĞŞ¸Ä£©*/
+/*èœå“ä»·æ ¼ä¿®æ”¹å‡½æ•°ï¼ˆé€šè¿‡èœå“åç§°ä¿®æ”¹ï¼‰*/
 void manager_use::changefood_price_name()
 {
     system("cls");
     string a, b;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·¼Û¸ñĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“ä»·æ ¼ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½°´²ËÆ·Ãû³ÆĞŞ¸Ä¼Û¸ñÏµÍ³  *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°æŒ‰èœå“åç§°ä¿®æ”¹ä»·æ ¼ç³»ç»Ÿ  *" << endl;
     cout << "\t\t\t*          *******************         *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËùÒªĞŞ¸ÄµÄ²ËÆ·Ãû³Æ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€è¦ä¿®æ”¹çš„èœå“åç§°ï¼š";
     cin >> a;
-    cout << endl << "\t\t\tÇëÊäÈëÄúÒª½«¼Û¸ñĞŞ¸ÄÎª£º";
+    cout << endl << "\t\t\tè¯·è¾“å…¥æ‚¨è¦å°†ä»·æ ¼ä¿®æ”¹ä¸ºï¼š";
     cin >> b;
     cout << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨r                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª ************¡ª¡ª¡ª¡ª¡ª *                 " << endl;
-    cout << "\t\t\t*           1 È·¶¨               *                " << endl;
-    cout << "\t\t\t*           2 È¡Ïû               *                " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*                " << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¨s                 " << endl;
-    cout << "\n\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•®                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€” ************â€”â€”â€”â€”â€” *                 " << endl;
+    cout << "\t\t\t*           1 ç¡®å®š               *                " << endl;
+    cout << "\t\t\t*           2 å–æ¶ˆ               *                " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*                " << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”************â€”â€”â€”â€”â€”â•¯                 " << endl;
+    cout << "\n\t\t\tè¯·é€‰æ‹©ï¼š";
     int e;
     cin >> e;
     switch(e)
@@ -1104,7 +1104,7 @@ void manager_use::changefood_price_name()
     case 1:
     {
         int m = 0;
-        ifstream f("²ËÆ×.txt", ios::binary);
+        ifstream f("èœè°±.txt", ios::binary);
         string information[20][3];
         int i;
         for(i = 0; i < 20; i++)
@@ -1122,14 +1122,14 @@ void manager_use::changefood_price_name()
                 n = 1;
             }
         }
-        ofstream g("²ËÆ×.txt", ios::binary);
+        ofstream g("èœè°±.txt", ios::binary);
         for(i = 0; i < m; i++)
         {
             g << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2] << endl;
         }
         if(n == 0)
         {
-            cout << "\n\t\t\tÄúËùÒªĞŞ¸ÄµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞøĞŞ¸Ä        ";
+            cout << "\n\t\t\tæ‚¨æ‰€è¦ä¿®æ”¹çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­ä¿®æ”¹        ";
             int a;
             cin >> a;
             switch(a)
@@ -1139,14 +1139,14 @@ void manager_use::changefood_price_name()
             case 2:
                 manager1.changefood_price_name();
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Èı¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸‰ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 break;
             }
         }
         else if(n == 1)
         {
-            cout << "\n\t\t\tÒÑĞŞ¸Ä£¡ÈÎÒâ¼ü·µ»Ø...";
+            cout << "\n\t\t\tå·²ä¿®æ”¹ï¼ä»»æ„é”®è¿”å›...";
             getch();
             manager1.changefood();
         }
@@ -1154,28 +1154,28 @@ void manager_use::changefood_price_name()
     case 2:
         manager1.changefood();
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*ĞŞ¸Ä²ËÆ·ĞÅÏ¢Ö÷º¯Êı*/
+/*ä¿®æ”¹èœå“ä¿¡æ¯ä¸»å‡½æ•°*/
 void manager_use::changefood()
 {
     system("cls");
     cout << endl << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·ĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*            1 ĞŞ¸Ä±à  ºÅ            *" << endl;
-    cout << "\t\t\t*            2 ĞŞ¸Ä²Ë  Ãû            *" << endl;
-    cout << "\t\t\t*            3 ĞŞ¸Ä¼Û  ¸ñ            *" << endl;
-    cout << "\t\t\t*            4 ·µ»ØÉÏÒ»²ã            *" << endl;
-    cout << "\t\t\t*            5 ·µ»ØÖ÷²Ëµ¥            *" << endl;
-    cout << "\t\t\t*            0 ÍË³öÏµ  Í³            *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
-    cout << endl << endl << "\t\t\tÇëÑ¡Ôñ£º";
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*            1 ä¿®æ”¹ç¼–  å·            *" << endl;
+    cout << "\t\t\t*            2 ä¿®æ”¹èœ  å            *" << endl;
+    cout << "\t\t\t*            3 ä¿®æ”¹ä»·  æ ¼            *" << endl;
+    cout << "\t\t\t*            4 è¿”å›ä¸Šä¸€å±‚            *" << endl;
+    cout << "\t\t\t*            5 è¿”å›ä¸»èœå•            *" << endl;
+    cout << "\t\t\t*            0 é€€å‡ºç³»  ç»Ÿ            *" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
+    cout << endl << endl << "\t\t\tè¯·é€‰æ‹©ï¼š";
     int a;
     cin >> a;
     switch(a)
@@ -1190,20 +1190,20 @@ void manager_use::changefood()
         string a, b;
         int n = 0;
         cout << endl << endl << endl << endl;
-        cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²ËÆ·¼Û¸ñĞŞ¸Ä¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-        cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+        cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå“ä»·æ ¼ä¿®æ”¹ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+        cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”â€”*" << endl;
         cout << "\t\t\t*          *****************             *" << endl;
-        cout << "\t\t\t*        »¶Ó­À´µ½²ËÆ·¼Û¸ñĞŞ¸ÄÏµÍ³        *" << endl;
+        cout << "\t\t\t*        æ¬¢è¿æ¥åˆ°èœå“ä»·æ ¼ä¿®æ”¹ç³»ç»Ÿ        *" << endl;
         cout << "\t\t\t*          ******************            *" << endl;
-        cout << "\t\t\t*           1.°´±àºÅĞŞ¸Ä¼Û¸ñ             *" << endl;
-        cout << "\t\t\t*           2.°´²ËÃûĞŞ¸Ä¼Û¸ñ             *" << endl;
-        cout << "\t\t\t*           3.·µ»ØÉÏ  Ò»  ²ã             *" << endl;
-        cout << "\t\t\t*           4.·µ»ØÖ÷  ²Ë  µ¥             *" << endl;
-        cout << "\t\t\t*           0.ÍË³ö  Ïµ    Í³             *" << endl;
-        cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-        cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+        cout << "\t\t\t*           1.æŒ‰ç¼–å·ä¿®æ”¹ä»·æ ¼             *" << endl;
+        cout << "\t\t\t*           2.æŒ‰èœåä¿®æ”¹ä»·æ ¼             *" << endl;
+        cout << "\t\t\t*           3.è¿”å›ä¸Š  ä¸€  å±‚             *" << endl;
+        cout << "\t\t\t*           4.è¿”å›ä¸»  èœ  å•             *" << endl;
+        cout << "\t\t\t*           0.é€€å‡º  ç³»    ç»Ÿ             *" << endl;
+        cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”â€”*" << endl;
+        cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
         cout << endl << endl;
-        cout << "\t\t\tÇëÑ¡Ôñ£º";
+        cout << "\t\t\tè¯·é€‰æ‹©ï¼š";
         int d;
         cin >> d;
         switch(d)
@@ -1229,37 +1229,37 @@ void manager_use::changefood()
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
         getch();
         break;
     }
 }
 
-/*¶ÁÈ¡Ñ§ÉúIDº¯Êı*/
+/*è¯»å–å­¦ç”ŸIDå‡½æ•°*/
 void readID(char *ID)
 {
     cin >> ID;
 }
 
-/*Ñ§ÉúÕË»§Ö÷º¯Êı*/
+/*å­¦ç”Ÿè´¦æˆ·ä¸»å‡½æ•°*/
 void student_use::stu_account(int n )
 {
     system("cls");
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾ Ñ§ÉúÕË»§ ¡¿¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*            1 ²Ë µ¥ ²é  Ñ¯        * " << endl;
-    cout << "\t\t\t*            2 Óà ¶î ²é  Ñ¯        * " << endl;
-    cout << "\t\t\t*            3 ³ä        Öµ        * " << endl;
-    cout << "\t\t\t*            4 ¹º Âò ²Ë  Æ·        * " << endl;
-    cout << "\t\t\t*            5 ²Ë Æ· ÆÀ  ¼Û        * " << endl;
-    cout << "\t\t\t*            6 ·µ»Ø ÉÏ Ò»²ã        * " << endl;
-    cout << "\t\t\t*            7 ·µ»Ø Ö÷ ²Ëµ¥        * " << endl;
-    cout << "\t\t\t*            0 ÍË ³ö Ïµ  Í³        * " << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€ å­¦ç”Ÿè´¦æˆ· ã€‘â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*            1 èœ å• æŸ¥  è¯¢        * " << endl;
+    cout << "\t\t\t*            2 ä½™ é¢ æŸ¥  è¯¢        * " << endl;
+    cout << "\t\t\t*            3 å……        å€¼        * " << endl;
+    cout << "\t\t\t*            4 è´­ ä¹° èœ  å“        * " << endl;
+    cout << "\t\t\t*            5 èœ å“ è¯„  ä»·        * " << endl;
+    cout << "\t\t\t*            6 è¿”å› ä¸Š ä¸€å±‚        * " << endl;
+    cout << "\t\t\t*            7 è¿”å› ä¸» èœå•        * " << endl;
+    cout << "\t\t\t*            0 é€€ å‡º ç³»  ç»Ÿ        * " << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÒªÑ¡ÔñµÄÊı×Ö£º";
+    cout << "\t\t\tè¯·è¾“å…¥è¦é€‰æ‹©çš„æ•°å­—ï¼š";
     int k;
     cin >> k;
     switch(k)
@@ -1267,7 +1267,7 @@ void student_use::stu_account(int n )
     case 1:
         student1.searchfood('h');
     case 2:
-        cout << "\t\t\tÄãµÄÓà¶îÎª£º   " << members[n].money << endl;
+        cout << "\t\t\tä½ çš„ä½™é¢ä¸ºï¼š   " << members[n].money << endl;
         system("pause");
         break;
     case 3:
@@ -1286,7 +1286,7 @@ void student_use::stu_account(int n )
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3¡¢4¡¢5¡¢6¡¢7°Ë¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3ã€4ã€5ã€6ã€7å…«ä¸ªåŠŸèƒ½é”®...";
         getch();
         manager1.Adm_Windows();
         break;
@@ -1294,20 +1294,20 @@ void student_use::stu_account(int n )
     stu_account(n);
 }
 
-/*Ñ§Éúµã²ÍÏµÍ³º¯Êı*/
+/*å­¦ç”Ÿç‚¹é¤ç³»ç»Ÿå‡½æ•°*/
 void student_use::buy(int n)
 {
     char num[40];
-    cout << endl << endl << endl << "\t\t\tÇëÊäÈë¹ºÂòµÄ²ËÆ·±àºÅ:";
+    cout << endl << endl << endl << "\t\t\tè¯·è¾“å…¥è´­ä¹°çš„èœå“ç¼–å·:";
     cin >> num;
     string information[20][3];
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     for(int i = 0; i < 20; i++)
     {
         f >> information[i][0] >> information[i][1] >> information[i][2];
         if(num == information[i][0])
         {
-            cout << endl << endl << "\t±àºÅ" << "\tÃû³Æ" << "\t¼Û¸ñ" << endl;
+            cout << endl << endl << "\tç¼–å·" << "\tåç§°" << "\tä»·æ ¼" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             char buf[10];
             strcpy(buf, information[i][2].c_str());
@@ -1315,8 +1315,8 @@ void student_use::buy(int n)
             if(members[n].money - i > 0)
             {
                 members[n].money -= i;
-                cout << endl << endl << "\t\t\t¹ºÂòÍê³É£¡Óà¶îÎª£º" << members[n].money << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø¹ºÂò  ";
-                ofstream g("Ñ§ÉúĞÅÏ¢.txt", ios::binary);
+                cout << endl << endl << "\t\t\tè´­ä¹°å®Œæˆï¼ä½™é¢ä¸ºï¼š" << members[n].money << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­è´­ä¹°  ";
+                ofstream g("å­¦ç”Ÿä¿¡æ¯.txt", ios::binary);
                 for(i = 0; i < sum; i++)
                 {
                     g << members[i].number << "\t" << members[i].name << "\t" << members[i].money << endl;
@@ -1324,7 +1324,7 @@ void student_use::buy(int n)
             }
             else
             {
-                cout << endl << endl << "\t\t\t¹ºÂòÊ§°Ü£¬Óà¶î²»×ã£¡" << endl << endl << "                          1 ·µ»Ø£»   2 ¼ÌĞø¹ºÂò  ";
+                cout << endl << endl << "\t\t\tè´­ä¹°å¤±è´¥ï¼Œä½™é¢ä¸è¶³ï¼" << endl << endl << "                          1 è¿”å›ï¼›   2 ç»§ç»­è´­ä¹°  ";
             }
             int a;
             cin >> a;
@@ -1340,7 +1340,7 @@ void student_use::buy(int n)
     }
     if(n == 0)
     {
-        cout << "\t\t\tÄúËù¹ºÂòµÄ²ËÆ·²»´æÔÚ£¡" << endl << "\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø¹ºÂò        " << endl;
+        cout << "\t\t\tæ‚¨æ‰€è´­ä¹°çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­è´­ä¹°        " << endl;
         int a;
         cin >> a;
         switch(a)
@@ -1353,18 +1353,18 @@ void student_use::buy(int n)
     }
 }
 
-/*Ñ§Éú³äÖµº¯Êı*/
+/*å­¦ç”Ÿå……å€¼å‡½æ•°*/
 void student_use::save_money(int n)
 {
     int i;
-    cout << endl << endl << endl << "\t\t\tÇëÊäÈë³äÖµµÄ½ğ¶î:";
+    cout << endl << endl << endl << "\t\t\tè¯·è¾“å…¥å……å€¼çš„é‡‘é¢:";
     int money;
     cin >> money;
     members[n].money += money;
-    ofstream g("Ñ§ÉúĞÅÏ¢.txt", ios::binary);
+    ofstream g("å­¦ç”Ÿä¿¡æ¯.txt", ios::binary);
     for(i = 0; i < sum; i++)
         g << members[i].number << "\t" << members[i].name << "\t" << members[i].money << endl;
-    cout << endl << "\t\t\t³äÖµ³É¹¦£¡£¡Óà¶îÎª£º" << members[n].money << endl << endl << "\t\t\t1.¼ÌĞø³äÖµ	        2.·µ»Ø" << endl;
+    cout << endl << "\t\t\tå……å€¼æˆåŠŸï¼ï¼ä½™é¢ä¸ºï¼š" << members[n].money << endl << endl << "\t\t\t1.ç»§ç»­å……å€¼	        2.è¿”å›" << endl;
     cin >> i;
     switch(i)
     {
@@ -1376,20 +1376,20 @@ void student_use::save_money(int n)
     }
 }
 
-/*Ñ§ÉúÓÃ»§µÇÂ¼º¯Êı*/
+/*å­¦ç”Ÿç”¨æˆ·ç™»å½•å‡½æ•°*/
 void student_use::readnumber()
 {
     char a[40];
     system("cls");
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾Ñ§ÉúÓÃ»§µÇÂ¼¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€å­¦ç”Ÿç”¨æˆ·ç™»å½•ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
     cout << "\t\t\t*                                        *" << endl;
     cout << "\t\t\t*          *****************             *" << endl;
-    cout << "\t\t\t*         »¶Ó­À´µ½Ñ§Éú·¹¿¨ÏµÍ³          *" << endl;
+    cout << "\t\t\t*         æ¬¢è¿æ¥åˆ°å­¦ç”Ÿé¥­å¡ç³»ç»Ÿ          *" << endl;
     cout << "\t\t\t*          *****************             *" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl << endl << endl;
-    cout << endl << endl << "\t\t\tÇëÊäÈëÄãµÄÑ§ºÅ£º";
+    cout << endl << endl << "\t\t\tè¯·è¾“å…¥ä½ çš„å­¦å·ï¼š";
     cin >> a;
     cout << endl;
     int t = 0, flag = 0;
@@ -1401,36 +1401,36 @@ void student_use::readnumber()
         }
     if(flag)
     {
-        cout << "\t\t\tµÇÂ½³É¹¦(ÈÎÒâ¼ü¼ÌĞø)...";
+        cout << "\t\t\tç™»é™†æˆåŠŸ(ä»»æ„é”®ç»§ç»­)...";
         student1.stu_account(t);
         getch();
         return;
     }
     else
     {
-        cout << "\t\t\t¸ÃÑ§ÉúÃ»ÓĞ×¢²á...";
+        cout << "\t\t\tè¯¥å­¦ç”Ÿæ²¡æœ‰æ³¨å†Œ...";
         getch();
         mainmenu();
     }
 }
 
-/*Ñ§Éú²Ëµ¥ĞÅÏ¢²éÑ¯×Óº¯Êı£¨Í¨¹ı²ËÆ·±àºÅ²éÑ¯£©*/
+/*å­¦ç”Ÿèœå•ä¿¡æ¯æŸ¥è¯¢å­å‡½æ•°ï¼ˆé€šè¿‡èœå“ç¼–å·æŸ¥è¯¢ï¼‰*/
 void User::searchfood_number(char h)
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·±àºÅ²éÑ¯ÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“ç¼–å·æŸ¥è¯¢ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËù²éÑ¯µÄ²ËÆ·±àºÅ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€æŸ¥è¯¢çš„èœå“ç¼–å·ï¼š";
     cin >> a;
     string information[20][3];
     for(int i = 0; i < 20; i++)
@@ -1438,10 +1438,10 @@ void User::searchfood_number(char h)
         f >> information[i][0] >> information[i][1] >> information[i][2];
         if(a == information[i][0])
         {
-            cout << endl << endl << "\t±àºÅ" << "\tÃû³Æ" << "\t¼Û¸ñ" << endl;
+            cout << endl << endl << "\tç¼–å·" << "\tåç§°" << "\tä»·æ ¼" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             n = 1;
-            cout << endl << endl << "\t\t\t²éÑ¯Íê³É£¡" << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯  ";
+            cout << endl << endl << "\t\t\tæŸ¥è¯¢å®Œæˆï¼" << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢  ";
             int a;
             cin >> a;
             switch(a)
@@ -1451,7 +1451,7 @@ void User::searchfood_number(char h)
             case 2:
                 student1.searchfood_number(h);
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Èı¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸‰ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 student1.searchfood_number(h);
                 break;
@@ -1460,7 +1460,7 @@ void User::searchfood_number(char h)
     }
     if(n == 0)
     {
-        cout << "\t\t\tÄúËù²éÑ¯µÄ²ËÆ·²»´æÔÚ£¡" << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯        " << endl;
+        cout << "\t\t\tæ‚¨æ‰€æŸ¥è¯¢çš„èœå“ä¸å­˜åœ¨ï¼" << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢        " << endl;
         int a;
         cin >> a;
         switch(a)
@@ -1470,7 +1470,7 @@ void User::searchfood_number(char h)
         case 2:
             student1.searchfood_number(h);
         default:
-            cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+            cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
             getch();
             student1.searchfood_number(h);
             break;
@@ -1478,23 +1478,23 @@ void User::searchfood_number(char h)
     }
 }
 
-/*Ñ§Éú²ËÆ·ĞÅÏ¢²éÑ¯×Óº¯Êı£¨Í¨¹ı²ËÆ·Ãû³Æ²éÑ¯£©*/
+/*å­¦ç”Ÿèœå“ä¿¡æ¯æŸ¥è¯¢å­å‡½æ•°ï¼ˆé€šè¿‡èœå“åç§°æŸ¥è¯¢ï¼‰*/
 void User::searchfood_name(char h)
 {
     system("cls");
-    ifstream f("²ËÆ×.txt", ios::binary);
+    ifstream f("èœè°±.txt", ios::binary);
     string a;
     int n = 0;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*      »¶Ó­À´µ½²ËÆ·Ãû³Æ²éÑ¯ÏµÍ³      *" << endl;
+    cout << "\t\t\t*      æ¬¢è¿æ¥åˆ°èœå“åç§°æŸ¥è¯¢ç³»ç»Ÿ      *" << endl;
     cout << "\t\t\t*         **************             *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄãËù²éÑ¯µÄ²ËÆ·Ãû³Æ£º";
+    cout << "\t\t\tè¯·è¾“å…¥ä½ æ‰€æŸ¥è¯¢çš„èœå“åç§°ï¼š";
     cin >> a;
     string information[20][3];
     for(int i = 0; i < 20; i++)
@@ -1502,10 +1502,10 @@ void User::searchfood_name(char h)
         f >> information[i][0] >> information[i][1] >> information[i][2];
         if(a == information[i][1])
         {
-            cout << endl << endl << "\t±àºÅ" << "\tÃû³Æ" << "\t¼Û¸ñ" << endl;
+            cout << endl << endl << "\tç¼–å·" << "\tåç§°" << "\tä»·æ ¼" << endl;
             cout << "\t" << information[i][0] << "\t" << information[i][1] << "\t" << information[i][2];
             n = 1;
-            cout << endl << endl << "\t\t\t²éÑ¯Íê³É£¡" << endl << endl << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯  " << endl;
+            cout << endl << endl << "\t\t\tæŸ¥è¯¢å®Œæˆï¼" << endl << endl << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢  " << endl;
             int a;
             cin >> a;
             switch(a)
@@ -1515,7 +1515,7 @@ void User::searchfood_name(char h)
             case 2:
                 student1.searchfood_name(h);
             default:
-                cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+                cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
                 getch();
                 student1.searchfood_name(h);
                 break;
@@ -1524,7 +1524,7 @@ void User::searchfood_name(char h)
     }
     if(n == 0)
     {
-        cout << "\n\t\t\tÄúËù²éÑ¯µÄ²ËÆ·²»´æÔÚ£¡" << endl << "\n\t\t\t1 ·µ»Ø£»   2 ¼ÌĞø²éÑ¯        " << endl << "\t\t\t";
+        cout << "\n\t\t\tæ‚¨æ‰€æŸ¥è¯¢çš„èœå“ä¸å­˜åœ¨ï¼" << endl << "\n\t\t\t1 è¿”å›ï¼›   2 ç»§ç»­æŸ¥è¯¢        " << endl << "\t\t\t";
         int a;
         cin >> a;
         switch(a)
@@ -1534,7 +1534,7 @@ void User::searchfood_name(char h)
         case 2:
             student1.searchfood_name(h);
         default:
-            cout << "\t\t\tÇëÑ¡Ôñ1¡¢2Á½¸ö¹¦ÄÜ¼ü...";
+            cout << "\t\t\tè¯·é€‰æ‹©1ã€2ä¸¤ä¸ªåŠŸèƒ½é”®...";
             getch();
             student1.searchfood_name(h);
             break;
@@ -1542,23 +1542,23 @@ void User::searchfood_name(char h)
     }
 }
 
-/*Ñ§Éú²ËÆ·ĞÅÏ¢²éÑ¯Ö÷º¯Êı*/
+/*å­¦ç”Ÿèœå“ä¿¡æ¯æŸ¥è¯¢ä¸»å‡½æ•°*/
 void User::searchfood(char h)
 {
     system("cls");
     cout << endl << endl << endl << endl << endl;
-    cout << "\t\t\t¨q¡ª¡ª¡ª¡ª¡ª¡¾²Ëµ¥²éÑ¯¡¿¡ª¡ª¡ª¡ª¡ª¡ª¨r" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t*            1 ²éÑ¯ËùÓĞ²ËÆ·          *" << endl;
-    cout << "\t\t\t*            2 °´±àºÅ²éÑ¯            *" << endl;
-    cout << "\t\t\t*            3 °´²ËÃû²éÑ¯            *" << endl;
-    cout << "\t\t\t*            4 ·µ»Ø ÉÏ Ò»²ã          *" << endl;
-    cout << "\t\t\t*            5 ·µ»Ø Ö÷ ²Ëµ¥          *" << endl;
-    cout << "\t\t\t*            0 ÍË ³ö Ïµ  Í³          *" << endl;
-    cout << "\t\t\t*¡ª¡ª¡ª¡ª¡ª¡ª************¡ª¡ª¡ª¡ª¡ª¡ª*" << endl;
-    cout << "\t\t\t¨t¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¨s" << endl;
+    cout << "\t\t\tâ•­â€”â€”â€”â€”â€”ã€èœå•æŸ¥è¯¢ã€‘â€”â€”â€”â€”â€”â€”â•®" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\t*            1 æŸ¥è¯¢æ‰€æœ‰èœå“          *" << endl;
+    cout << "\t\t\t*            2 æŒ‰ç¼–å·æŸ¥è¯¢            *" << endl;
+    cout << "\t\t\t*            3 æŒ‰èœåæŸ¥è¯¢            *" << endl;
+    cout << "\t\t\t*            4 è¿”å› ä¸Š ä¸€å±‚          *" << endl;
+    cout << "\t\t\t*            5 è¿”å› ä¸» èœå•          *" << endl;
+    cout << "\t\t\t*            0 é€€ å‡º ç³»  ç»Ÿ          *" << endl;
+    cout << "\t\t\t*â€”â€”â€”â€”â€”â€”************â€”â€”â€”â€”â€”â€”*" << endl;
+    cout << "\t\t\tâ•°â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â•¯" << endl;
     cout << endl << endl << endl << endl;
-    cout << "\t\t\tÇëÊäÈëÄúÒªÑ¡ÔñµÄÊı×Ö£º";
+    cout << "\t\t\tè¯·è¾“å…¥æ‚¨è¦é€‰æ‹©çš„æ•°å­—ï¼š";
     int p;
     cin >> p;
     switch(p)
@@ -1566,14 +1566,14 @@ void User::searchfood(char h)
     case 1:
     {
         system("cls");
-        ifstream f("²ËÆ×.txt");
+        ifstream f("èœè°±.txt");
         while(!f.eof())
         {
             char a;
             a = f.get();
             cout << a;
         }
-        cout << "\t\t\t²éÑ¯Íê³É£¬°´ÈÎÒâ¼ü·µ»Ø";
+        cout << "\t\t\tæŸ¥è¯¢å®Œæˆï¼ŒæŒ‰ä»»æ„é”®è¿”å›";
         getch();
         student1.searchfood(h);
     }
@@ -1589,7 +1589,7 @@ void User::searchfood(char h)
         cout << "\t\t\t";
         exit(1);
     default:
-        cout << "\t\t\tÇëÑ¡Ôñ0¡¢1¡¢2¡¢3¡¢4¡¢5Èı¸ö¹¦ÄÜ¼ü...";
+        cout << "\t\t\tè¯·é€‰æ‹©0ã€1ã€2ã€3ã€4ã€5ä¸‰ä¸ªåŠŸèƒ½é”®...";
         getch();
         student1.searchfood(h);
         break;
@@ -1597,28 +1597,28 @@ void User::searchfood(char h)
     }
 }
 
-//¸üĞÂÆÀ¼Û.txtÖĞµÄÊı¾İ
+//æ›´æ–°è¯„ä»·.txtä¸­çš„æ•°æ®
 void InitialScore()
 {
     FILE *fp;
-    if((fp = fopen("ÆÀ¼Û.txt", "a")) == NULL)
+    if((fp = fopen("è¯„ä»·.txt", "a")) == NULL)
     {
-        printf("can't open the file ÆÀ¼Û.txt\n");
+        printf("can't open the file è¯„ä»·.txt\n");
         exit(0);
     }
     fclose(fp);
-    //½«²ËÆ×ÖĞµÄ²ËÆ·È«²¿¶Á³öÀ´´æÔÚFoodMssageÊı×éÖĞ
-    if((fp = fopen("²ËÆ×.txt", "r")) == NULL)
+    //å°†èœè°±ä¸­çš„èœå“å…¨éƒ¨è¯»å‡ºæ¥å­˜åœ¨FoodMssageæ•°ç»„ä¸­
+    if((fp = fopen("èœè°±.txt", "r")) == NULL)
     {
-        printf("can't open the file ²ËÆ×.txt\n");
+        printf("can't open the file èœè°±.txt\n");
         exit(0);
     }
     int num = 0;
     char foodname[20];
     char foodid[20];
     char foodprice[20];
-    fseek(fp, 0, SEEK_SET);     /*¶ÁĞ´Î»ÖÃÒÆ¶¯µ½ÎÄ¼ş¿ªÊ¼´¦*/
-    while(!feof(fp))                    /*¼ì²éÎÄ¼şÊÇ·ñ½áÊø*/
+    fseek(fp, 0, SEEK_SET);     /*è¯»å†™ä½ç½®ç§»åŠ¨åˆ°æ–‡ä»¶å¼€å§‹å¤„*/
+    while(!feof(fp))                    /*æ£€æŸ¥æ–‡ä»¶æ˜¯å¦ç»“æŸ*/
     {
         fscanf(fp, "%s %s %s", foodid, foodname, foodprice);
         strcpy(FoodMssage[num].FoodId, foodid);
@@ -1629,17 +1629,17 @@ void InitialScore()
         num++;
     }
     fclose(fp);
-    //½«ÆÀ¼Û.txtÖĞµÄÆÀ¼ÛĞÅÏ¢È«²¿´æÈëµ½FoodMssageÊı×éÖĞ
-    if((fp = fopen("ÆÀ¼Û.txt", "r")) == NULL)
+    //å°†è¯„ä»·.txtä¸­çš„è¯„ä»·ä¿¡æ¯å…¨éƒ¨å­˜å…¥åˆ°FoodMssageæ•°ç»„ä¸­
+    if((fp = fopen("è¯„ä»·.txt", "r")) == NULL)
     {
-        printf("can't open the file ÆÀ¼Û.txt\n");
+        printf("can't open the file è¯„ä»·.txt\n");
         exit(0);
     }
     num = 0;
     int foodscore = 0;
     int foodscorenum = 0;
-    fseek(fp, 0, SEEK_SET);    /*¶ÁĞ´Î»ÖÃÒÆ¶¯µ½ÎÄ¼ş¿ªÊ¼´¦*/
-    while(!feof(fp))                    /*¼ì²éÎÄ¼şÊÇ·ñ½áÊø*/
+    fseek(fp, 0, SEEK_SET);    /*è¯»å†™ä½ç½®ç§»åŠ¨åˆ°æ–‡ä»¶å¼€å§‹å¤„*/
+    while(!feof(fp))                    /*æ£€æŸ¥æ–‡ä»¶æ˜¯å¦ç»“æŸ*/
     {
         fscanf(fp, "%s %s %d %d", foodid, foodname, &foodscore, &foodscorenum);
         for (num = 0; num < 20; num++)
@@ -1652,10 +1652,10 @@ void InitialScore()
         }
     }
     fclose(fp);
-    //½«FoodMssageÊı×éÖĞ¸üĞÂºóµÄÆÀ¼ÛĞÅÏ¢È«²¿´æÈëµ½ÆÀ¼Û.txtÖĞ
-    if((fp = fopen("ÆÀ¼Û.txt", "w")) == NULL)
+    //å°†FoodMssageæ•°ç»„ä¸­æ›´æ–°åçš„è¯„ä»·ä¿¡æ¯å…¨éƒ¨å­˜å…¥åˆ°è¯„ä»·.txtä¸­
+    if((fp = fopen("è¯„ä»·.txt", "w")) == NULL)
     {
-        printf("can't open the file ÆÀ¼Û.txt\n");
+        printf("can't open the file è¯„ä»·.txt\n");
         exit(0);
     }
     for (num = 0; num < foodnum; num++)
@@ -1666,23 +1666,23 @@ void InitialScore()
 
 }
 
-//´ÓÆÀ¼Û.txtÖĞÊä³öÊı¾İµ½Á´±íÖĞ
+//ä»è¯„ä»·.txtä¸­è¾“å‡ºæ•°æ®åˆ°é“¾è¡¨ä¸­
 NodeTp *GetData()
 {
     NodeTp *h, *p, *last;
-    CreateNode(h);//½¨Á¢Í·½áµã
+    CreateNode(h);//å»ºç«‹å¤´ç»“ç‚¹
     last = h;
     FILE *fp;
-    if((fp = fopen("ÆÀ¼Û.txt", "r")) == NULL)
+    if((fp = fopen("è¯„ä»·.txt", "r")) == NULL)
     {
-        printf("can't open the file ÆÀ¼Û.txt\n");
+        printf("can't open the file è¯„ä»·.txt\n");
         exit(0);
     }
 
-    fseek(fp, 0, SEEK_SET);    //¶ÁĞ´Î»ÖÃÒÆ¶¯µ½ÎÄ¼ş¿ªÊ¼´¦
-    while(!feof(fp))                    //¼ì²éÎÄ¼şÊÇ·ñ½áÊø
+    fseek(fp, 0, SEEK_SET);    //è¯»å†™ä½ç½®ç§»åŠ¨åˆ°æ–‡ä»¶å¼€å§‹å¤„
+    while(!feof(fp))                    //æ£€æŸ¥æ–‡ä»¶æ˜¯å¦ç»“æŸ
     {
-        CreateNode(p);//½¨Á¢Ò»¸öĞÂµÄ½Úµã
+        CreateNode(p);//å»ºç«‹ä¸€ä¸ªæ–°çš„èŠ‚ç‚¹
         fscanf(fp, "%s %s %d %d", p->data.FoodId, p->data.FoodName, &p->data.socre, &p->data.socernum);
         last ->next = p;
         last = p;
@@ -1696,15 +1696,15 @@ NodeTp *GetData()
     return h;
 }
 
-/*¹ÜÀíÔ±²é¿´Ñ§ÉúÒâ¼û·´À¡º¯Êı*/
+/*ç®¡ç†å‘˜æŸ¥çœ‹å­¦ç”Ÿæ„è§åé¦ˆå‡½æ•°*/
 void ShowFoodScore()
 {
     system("cls");
     NodeTp *h, *p;
     h = GetData();
-    cout << "\t   ²ËÆ·±àºÅ\t   ²ËÆ·Ãû³Æ\t   ²ËÆ·ÆÀ·Ö\t   ÆÀ·Ö×ÜÈËÊı" << endl;
-    p = h->next;//hÎªÍ·Ö¸Õë
-    //Êä³öÁ´±íÖĞµÄĞÅÏ¢
+    cout << "\t   èœå“ç¼–å·\t   èœå“åç§°\t   èœå“è¯„åˆ†\t   è¯„åˆ†æ€»äººæ•°" << endl;
+    p = h->next;//hä¸ºå¤´æŒ‡é’ˆ
+    //è¾“å‡ºé“¾è¡¨ä¸­çš„ä¿¡æ¯
     while(p)
     {
         cout << "\t\t" << p->data.FoodId << "\t\t" << p->data.FoodName << "\t\t" << p->data.socre << "\t\t" << p->data.socernum << endl;
@@ -1714,7 +1714,7 @@ void ShowFoodScore()
     manager1.Adm_Windows();
 }
 
-/*Ñ§ÉúÒâ¼û·´À¡º¯Êı*/
+/*å­¦ç”Ÿæ„è§åé¦ˆå‡½æ•°*/
 
 void WriteScore()
 {
@@ -1723,15 +1723,15 @@ void WriteScore()
     char foodname[20];
     char foodid[20];
     int foodscore = 0;
-    cout << "\t\t\tÇëÊäÈëĞèÆÀ¼ÛµÄ²ËÆ·±àºÅ:";
+    cout << "\t\t\tè¯·è¾“å…¥éœ€è¯„ä»·çš„èœå“ç¼–å·:";
     cin >> foodid;
-    cout << "\t\t\tÇëÊäÈëĞèÆÀ¼ÛµÄ²ËÆ·Ãû³Æ:";
+    cout << "\t\t\tè¯·è¾“å…¥éœ€è¯„ä»·çš„èœå“åç§°:";
     cin >> foodname;
-    cout << "\t\t\tÇëÊäÈëÄúµÄÆÀ·Ö:";
+    cout << "\t\t\tè¯·è¾“å…¥æ‚¨çš„è¯„åˆ†:";
     cin >> foodscore;
     for (num = 0; num < 20; num++)
     {
-        if ((strcmp(FoodMssage[num].FoodId, foodid) == 0) && (strcmp(FoodMssage[num].FoodName, foodname) == 0)) //ÑéÖ¤²ËÆ·±àºÅºÍÃû³ÆÊÇ·ñÕıÈ·
+        if ((strcmp(FoodMssage[num].FoodId, foodid) == 0) && (strcmp(FoodMssage[num].FoodName, foodname) == 0)) //éªŒè¯èœå“ç¼–å·å’Œåç§°æ˜¯å¦æ­£ç¡®
         {
             FoodMssage[num].socernum++;
             FoodMssage[num].socre = (FoodMssage[num].socre + foodscore) / FoodMssage[num].socernum;
@@ -1740,28 +1740,28 @@ void WriteScore()
     }
     if (20 == num)
     {
-        cout << "\t\t\tÄúÊäÈëµÄ²ËÆ·±àºÅ»òÕß²ËÆ·Ãû³ÆÓĞÎó!";
+        cout << "\t\t\tæ‚¨è¾“å…¥çš„èœå“ç¼–å·æˆ–è€…èœå“åç§°æœ‰è¯¯!";
         return;
     }
     FILE *fp;
-    if((fp = fopen("ÆÀ¼Û.txt", "w")) == NULL)
+    if((fp = fopen("è¯„ä»·.txt", "w")) == NULL)
     {
-        printf("can't open the file ÆÀ¼Û.txt\n");
+        printf("can't open the file è¯„ä»·.txt\n");
         exit(0);
     }
     for (num = 0; num < foodnum; num++)
     {
-        fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum); //ÆÀ¼ÛĞÅÏ¢±£´æÔÚÎÄ¼şÖĞ
+        fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum); //è¯„ä»·ä¿¡æ¯ä¿å­˜åœ¨æ–‡ä»¶ä¸­
     }
     fclose(fp);
 }
 
-/************Ö÷º¯Êı**************/
+/************ä¸»å‡½æ•°**************/
 int main()
 {
     InitialFile();
     InitialScore();
-    FILE *fin = fopen("Ñ§ÉúĞÅÏ¢.txt", "r");
+    FILE *fin = fopen("å­¦ç”Ÿä¿¡æ¯.txt", "r");
     int i = 0;
     while(fscanf(fin, "%s %s %d", members[i].number, members[i].name, &members[i].money) != EOF)
         i++;

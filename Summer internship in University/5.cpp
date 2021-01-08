@@ -108,9 +108,9 @@ void InitialFile()
 {
     FILE* fp;
     errno_t err;
-    if ((err = fopen_s(&fp,"admin.txt", "a")) == NULL)
+    if ((err = fopen_s(&fp,"admin.txt", "a")) != NULL)
     {
-        printf("can't open the file use.txt\n");
+        printf("can't open the file admin.txt\n");
         exit(0);
     }
     if (fp != NULL)
@@ -119,9 +119,9 @@ void InitialFile()
         fp = NULL;
     }
     
-    if ((err = fopen_s(&fp,"menu.txt", "a")) == NULL)
+    if ((err = fopen_s(&fp,"menu.txt", "a")) != NULL)
     {
-        printf("can't open the file use.txt\n");
+        printf("can't open the file menu.txt\n");
         exit(0);
     }
     if (fp != NULL)
@@ -130,9 +130,9 @@ void InitialFile()
         fp = NULL;
     }
 
-    if ((err = fopen_s(&fp,"stu_info.txt", "a")) == NULL)
+    if ((err = fopen_s(&fp,"stu_info.txt", "a")) != NULL)
     {
-        printf("can't open the file use.txt\n");
+        printf("can't open the file stuinfo.txt\n");
         exit(0);
     }
     if (fp != NULL)
@@ -1642,7 +1642,7 @@ void InitialScore()
 {
     FILE* fp;
     errno_t err;
-    if ((err = fopen_s(&fp,"evaluate.txt", "a")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "a")) != NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
@@ -1653,33 +1653,40 @@ void InitialScore()
         fp = NULL;
     }
     //将菜谱中的菜品全部读出来存在FoodMssage数组中
-    if ((err = fopen_s(&fp,"menu.txt", "r")) == NULL)
+    if ((err = fopen_s(&fp,"menu.txt", "r")) != NULL)
     {
         printf("can't open the file menu.txt\n");
         exit(0);
     }
     int num = 0;
-    char foodname[20];
-    char foodid[20];
-    char foodprice[20];
-    fseek(fp, 0, SEEK_SET);     /*读写位置移动到文件开始处*/
-    while (!feof(fp))                    /*检查文件是否结束*/
+    char foodname[20] = {0};
+    char foodid[20] = {0};
+    char foodprice[20] = {0};
+    if (fp != NULL)
     {
-        fscanf_s(fp, "%s %s %s", foodid, _countof(foodid), foodname, _countof(foodname), foodprice, _countof(foodprice));
-        strcpy_s(FoodMssage[num].FoodId, foodid);
-        strcpy_s(FoodMssage[num].FoodName, foodname);
-        FoodMssage[num].socre = 0;
-        FoodMssage[num].socernum = 0;
-        foodnum = num;
-        num++;
+        fseek(fp, 0, SEEK_SET);    /*读写位置移动到文件开始处*/
     }
+    if (fp != NULL)
+    {
+        while (!feof(fp))                    /*检查文件是否结束*/
+        {
+            fscanf_s(fp, "%s %s %s", foodid, _countof(foodid), foodname, _countof(foodname), foodprice, _countof(foodprice));
+            strcpy_s(FoodMssage[num].FoodId, foodid);
+            strcpy_s(FoodMssage[num].FoodName, foodname);
+            FoodMssage[num].socre = 0;
+            FoodMssage[num].socernum = 0;
+            foodnum = num;
+            num++;
+        }
+    }
+
     if (fp != NULL)
     {
         fclose(fp);
         fp = NULL;
     }
     //将evaluate.txt中的评价信息全部存入到FoodMssage数组中
-    if ((err = fopen_s(&fp,"evaluate.txt", "r")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "r")) != NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
@@ -1688,35 +1695,45 @@ void InitialScore()
     int foodscore = 0;
     int foodscorenum = 0;
 
-
-    fseek(fp, 0, SEEK_SET);    /*读写位置移动到文件开始处*/
-
-    while (!feof(fp))                    /*检查文件是否结束*/
+    if (fp != NULL)
     {
-        fscanf_s(fp, "%s %s %d %d", foodid, _countof(foodid),foodname, _countof(foodname), &foodscore, &foodscorenum);
-        for (num = 0; num < 20; num++)
+        fseek(fp, 0, SEEK_SET);    /*读写位置移动到文件开始处*/
+    }
+    
+    if (fp != NULL)
+    {
+        while (!feof(fp))                    /*检查文件是否结束*/
         {
-            if ((strcmp(FoodMssage[num].FoodId, foodid) == 0) && (strcmp(FoodMssage[num].FoodName, foodname) == 0))
+            fscanf_s(fp, "%s %s %d %d", foodid, _countof(foodid), foodname, _countof(foodname), &foodscore, &foodscorenum);
+            for (num = 0; num < 20; num++)
             {
-                FoodMssage[num].socre = foodscore;
-                FoodMssage[num].socernum = foodscorenum;
+                if ((strcmp(FoodMssage[num].FoodId, foodid) == 0) && (strcmp(FoodMssage[num].FoodName, foodname) == 0))
+                {
+                    FoodMssage[num].socre = foodscore;
+                    FoodMssage[num].socernum = foodscorenum;
+                }
             }
         }
     }
+
+
     if (fp != NULL)
     {
         fclose(fp);
         fp = NULL;
     }
     //将FoodMssage数组中更新后的评价信息全部存入到evaluate.txt中
-    if ((err = fopen_s(&fp,"evaluate.txt", "w")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "w")) != NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
     }
     for (num = 0; num < foodnum; num++)
     {
-        fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum);
+        if (fp != NULL)
+        {
+            fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum);
+        }
     }
     if (fp != NULL)
     {
@@ -1729,31 +1746,49 @@ void InitialScore()
 //从evaluate.txt中输出数据到链表中
 NodeTp* GetData()
 {
-    NodeTp* h, * p, * last;
+    NodeTp *h, *p, *last;
     CreateNode(h);//建立头结点
+    //CreateNode(p);
     last = h;
     FILE* fp;
     errno_t err;
-    if ((err = fopen_s(&fp,"evaluate.txt", "r")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "r")) != NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
     }
 
-    fseek(fp, 0, SEEK_SET);    //读写位置移动到文件开始处
-    while (!feof(fp))                    //检查文件是否结束
+    if (fp != NULL)
     {
-        CreateNode(p);//建立一个新的节点
-        fscanf_s(fp, "%s %s %d %d", &p->data.FoodId, &p->data.FoodName, &p->data.socre, &p->data.socernum,20);
-        last->next = p;
-        last = p;
-        foodnum--;
-        if (!foodnum)
+        fseek(fp, 0, SEEK_SET);    /*读写位置移动到文件开始处*/
+    }
+    if (fp != NULL) 
+    {
+        while (!feof(fp))                    //检查文件是否结束
         {
-            break;
+            CreateNode(p);//建立一个新的节点
+            if(p != NULL)
+            {
+                fscanf_s(fp, "%s %s %d %d", &p->data.FoodId, &p->data.FoodName, &p->data.socre, &p->data.socernum);
+            }
+
+            if (p != NULL)
+            {
+                last->next = p;
+            }
+
+            last = p;
+            foodnum--;
+            if (!foodnum)
+            {
+                break;
+            }
         }
     }
+
     last->next = NULL;
+
+
     return h;
 }
 
@@ -1782,8 +1817,8 @@ void WriteScore()
 {
     InitialScore();
     int num = 0;
-    char foodname[20];
-    char foodid[20];
+    char foodname[20] = {0};
+    char foodid[20] = {0};
     int foodscore = 0;
     cout << "\t\t\t请输入需评价的菜品编号:";
     cin >> foodid;
@@ -1807,14 +1842,17 @@ void WriteScore()
     }
     FILE* fp;
     errno_t err;
-    if ((err = fopen_s(&fp,"evaluate.txt", "w")) == NULL)
+    if ((err = fopen_s(&fp,"evaluate.txt", "w")) != NULL)
     {
         printf("can't open the file evaluate.txt\n");
         exit(0);
     }
     for (num = 0; num < foodnum; num++)
     {
-        fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum); //评价信息保存在文件中
+        if(fp != NULL)
+        {
+            fprintf(fp, "%s %s %d %d \n", FoodMssage[num].FoodId, FoodMssage[num].FoodName, FoodMssage[num].socre, FoodMssage[num].socernum); //评价信息保存在文件中
+        }
     }
     if (fp != NULL)
     {
@@ -1832,8 +1870,12 @@ int main()
     FILE* fin;
     err = fopen_s(&fin, "stu_info.txt", "r");
     int i = 0;
-    while (fscanf_s(fin, "%s %s %d", members[i].number, _countof(members[i].number),members[i].name, _countof(members[i].number), &members[i].money) != EOF,20)
-        i++;
+    if (fin != NULL)
+    {
+        while (fscanf_s(fin, "%s %s %d", members[i].number, _countof(members[i].number), members[i].name, _countof(members[i].number), &members[i].money) != EOF)
+            i++;
+
+    }
     sum = i;
     mainmenu();
     return 0;
